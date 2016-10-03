@@ -4,8 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-// sg>xhpQ?ZJpFA[q4K
-// ACCESS_TOKEN: EAADJaV9WwikBAESTqOHziFZCJyvktOlOKNAT8N6V7K9hQBPkYpLZALgadBx3AYK1wHoR1PYoVn7chU2WCD8dGzRMHdxlAolbrzypBLrZCs1fV6XRHCkiCqz7M2PZBVxUHjznpEhPMZA6b5lDpkDwer6VFZAYjghpZBfRmHf0GTsiQZDZD
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
