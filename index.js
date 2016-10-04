@@ -43,7 +43,8 @@ function getText(text){
   })
   .then(content => {
     site_content = content;
-    return site_content;
+    sitepage.close();
+    phInstance.exit();
     // console.log(content);
     // sitepage.close();
     // phInstance.exit();
@@ -52,6 +53,8 @@ function getText(text){
     console.log(error);
     phInstance.exit();
   });
+  return site_content;
+
 }
 app.post('/webhook/', function (req, res) {
 
@@ -64,6 +67,7 @@ app.post('/webhook/', function (req, res) {
     let sender = event.sender.id
     if (event.message && event.message.text) {
       let text = event.message.text
+      console(getText(text).substring(0, 200));
       sendTextMessage(sender, "****** echo: " + getText(text).substring(0, 200))
     }
 
