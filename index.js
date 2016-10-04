@@ -69,7 +69,7 @@ app.post('/webhook/', function (req, res) {
     if (event.message && event.message.text) {
       let text = event.message.text
       console.log(text.substring(0,200));
-      console(getText(text).substring(0, 200));
+      // console(getText(text).substring(0, 200));
       sendTextMessage(sender, "****** echo: " +text.substring(0, 200))
     }
 
