@@ -12,6 +12,6 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "request": "^2.75.0",
-    "phantom": "^2.1.21"
+    "nightmare": "^3.10.8"
   }
 }

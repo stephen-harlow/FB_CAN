@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-var phantom = require('phantom');
+const Nightmare = require('nightmare');
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -26,7 +26,6 @@ app.get('/webhook/', function (req, res) {
   }
   res.send('Error, wrong token')
 })
-var Nightmare = require('nightmare');
 var Caller = function(query, caller){
   var nightmare = Nightmare({ show: false })
   var value = null
