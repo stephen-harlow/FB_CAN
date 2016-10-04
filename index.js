@@ -41,25 +41,23 @@ function getText(text){
     return page.open(text);
   })
   .then(status => {
-    console.log(status);
+    console.log("SITE STATUS" + status);
     return sitepage.property('content');
   })
   .then(content => {
     site_content = content;
-    return site_content;
-
     // console.log(content);
     // sitepage.close();
     // phInstance.exit();
   })
   .catch(error => {
     console.log(error);
-    phInstance.exit();
   });
   if(sitepage != null){
     sitepage.close();
     phInstance.exit();
   }
+  return site_content;
 
 }
 app.post('/webhook/', function (req, res) {
