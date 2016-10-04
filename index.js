@@ -30,7 +30,7 @@ app.post('/webhook/', function (req, res) {
 
   var sitepage = null;
   var phInstance = null;
-  var content = null;
+  var site_content = null;
   phantom.create()
   .then(instance => {
     phInstance = instance;
@@ -45,6 +45,7 @@ app.post('/webhook/', function (req, res) {
     return sitepage.property('content');
   })
   .then(content => {
+    site_content = content;
     console.log(content);
     sitepage.close();
     phInstance.exit();
