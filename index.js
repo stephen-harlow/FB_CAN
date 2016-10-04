@@ -46,8 +46,8 @@ function getText(text){
   })
   .then(content => {
     site_content = content;
-    sitepage.close();
-    phInstance.exit();
+    return site_content;
+
     // console.log(content);
     // sitepage.close();
     // phInstance.exit();
@@ -56,7 +56,10 @@ function getText(text){
     console.log(error);
     phInstance.exit();
   });
-  return site_content;
+  if(sitepage != null){
+    sitepage.close();
+    phInstance.exit();
+  }
 
 }
 app.post('/webhook/', function (req, res) {
