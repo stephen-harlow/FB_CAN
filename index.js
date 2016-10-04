@@ -45,7 +45,6 @@ function getText(text){
     return sitepage.property('content');
   })
   .then(content => {
-    console.log(content);
     site_content = content;
     sitepage.close();
     phInstance.exit();
