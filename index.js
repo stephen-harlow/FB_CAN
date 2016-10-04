@@ -28,6 +28,9 @@ app.get('/webhook/', function (req, res) {
 })
 function getText(text){
   var site_content = null;
+  var sitepage = null;
+  var phInstance = null;
+
   phantom.create()
   .then(instance => {
     phInstance = instance;
@@ -59,8 +62,6 @@ function getText(text){
 }
 app.post('/webhook/', function (req, res) {
 
-  var sitepage = null;
-  var phInstance = null;
 
   let messaging_events = req.body.entry[0].messaging
   for (let i = 0; i < messaging_events.length; i++) {
