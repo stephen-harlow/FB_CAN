@@ -53,11 +53,7 @@ function getText(text){
   var site_content = null;
   var sitepage = null;
   var phInstance = null;
-  console.log("Searching")
-  Caller(text, function(param){
-    console.log("Returning first 100 characters");
-    return param.substring(0, 100);
-  });
+
 
 
 
@@ -72,8 +68,13 @@ app.post('/webhook/', function (req, res) {
     if (event.message && event.message.text) {
       let text = event.message.text
       console.log(text.substring(0,200));
+      console.log("Searching")
+      Caller(text, function(param){
+        console.log("Returning first 100 characters");
+        sendTextMessage(sender,getText(param.substring(0, 100))+ "****** echo: " +text.substring(0, 200))
+      });
       // console(.substring(0, 200));
-      sendTextMessage(sender,getText(text)+ "****** echo: " +text.substring(0, 200))
+
     }
 
   }
