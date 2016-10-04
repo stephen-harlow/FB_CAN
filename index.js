@@ -26,10 +26,7 @@ app.get('/webhook/', function (req, res) {
   }
   res.send('Error, wrong token')
 })
-app.post('/webhook/', function (req, res) {
-
-  var sitepage = null;
-  var phInstance = null;
+function getText(text){
   var site_content = null;
   phantom.create()
   .then(instance => {
@@ -38,7 +35,7 @@ app.post('/webhook/', function (req, res) {
   })
   .then(page => {
     sitepage = page;
-    return page.open('https://stackoverflow.com/');
+    return page.open(text);
   })
   .then(status => {
     console.log(status);
@@ -46,21 +43,28 @@ app.post('/webhook/', function (req, res) {
   })
   .then(content => {
     site_content = content;
-    console.log(content);
-    sitepage.close();
-    phInstance.exit();
+    return site_content;
+    // console.log(content);
+    // sitepage.close();
+    // phInstance.exit();
   })
   .catch(error => {
     console.log(error);
     phInstance.exit();
   });
+}
+app.post('/webhook/', function (req, res) {
+
+  var sitepage = null;
+  var phInstance = null;
+
   let messaging_events = req.body.entry[0].messaging
   for (let i = 0; i < messaging_events.length; i++) {
     let event = req.body.entry[0].messaging[i]
     let sender = event.sender.id
     if (event.message && event.message.text) {
       let text = event.message.text
-      sendTextMessage(sender, content + "****** echo: " + text.substring(0, 200))
+      sendTextMessage(sender, "****** echo: " + getText(text).substring(0, 200))
     }
 
   }
