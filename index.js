@@ -26,38 +26,41 @@ app.get('/webhook/', function (req, res) {
   }
   res.send('Error, wrong token')
 })
+var Nightmare = require('nightmare');
+var Caller = function(query, caller){
+  var nightmare = Nightmare({ show: false })
+  var value = null
+  var doc = null
+  var night = Nightmare();
+  night.goto('https://www.justwatch.com/us/search?q=' + query)
+  .wait('.main-content__list-element')
+  .evaluate(function () {
+    return document.querySelector('.main-content--list').innerHTML;
+    // return
+  })
+  .end()
+  .then(function (result) {
+    value = result;
+    caller(result);
+    // console.log(value);
+  })
+  .catch(function (error) {
+    console.error('Search failed:', error);
+  });
+}
+
+
 function getText(text){
   var site_content = null;
   var sitepage = null;
   var phInstance = null;
-
-  phantom.create()
-  .then(instance => {
-    phInstance = instance;
-    return instance.createPage();
-  })
-  .then(page => {
-    sitepage = page;
-    return page.open(text);
-  })
-  .then(status => {
-    console.log("SITE STATUS" + status);
-    return sitepage.property('content');
-  })
-  .then(content => {
-    site_content = content;
-    // console.log(content);
-    // sitepage.close();
-    // phInstance.exit();
-  })
-  .catch(error => {
-    console.log(error);
+  console.log("Searching")
+  Caller(text, function(param){
+    console.log("Returning first 100 characters");
+    return param.substring(0, 100);
   });
-  if(sitepage != null){
-    sitepage.close();
-    phInstance.exit();
-  }
-  return site_content;
+
+
 
 }
 app.post('/webhook/', function (req, res) {
@@ -70,8 +73,8 @@ app.post('/webhook/', function (req, res) {
     if (event.message && event.message.text) {
       let text = event.message.text
       console.log(text.substring(0,200));
-      // console(getText(text).substring(0, 200));
-      sendTextMessage(sender, "****** echo: " +text.substring(0, 200))
+      // console(.substring(0, 200));
+      sendTextMessage(sender,getText(text)+ "****** echo: " +text.substring(0, 200))
     }
 
   }
