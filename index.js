@@ -150,7 +150,7 @@ function GenMainCard(mediaEntity, callback){
   request.get("https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB + "&query=" + mediaEntity.title, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var csv = JSON.parse(body);
-        if(csv.results[0].poster_path != null){
+        if(csv != null && csv.results != null){
           card["image_url"] = "http://image.tmdb.org/t/p/w500/" + csv.results[0].poster_path;
 
         }
@@ -181,7 +181,7 @@ function genSource(Entity){
   ret["subtitle"] = "$" + parseInt(Entity.cost)/100.0
   ret.buttons = [{
       "type": "web_url",
-      "url": IMAGE_LINKS[Entity["source"]],
+      "url": Entity.url,
       "title": "Go to " + ret["title"]
   }]
   return ret;
