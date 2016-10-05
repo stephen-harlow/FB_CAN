@@ -8,7 +8,7 @@ const Nightmare = require('nightmare');
 const unirest = require("unirest");
 
 const Fuse = require("fuse.js");
-const req = unirest("GET", "http://watchi.ly/ajaxSearch.php");
+const reqer = unirest("GET", "http://watchi.ly/ajaxSearch.php");
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -32,11 +32,9 @@ app.get('/webhook/', function (req, res) {
 })
 var Caller = function(query, caller){
 
-  req.query({
-    "keywords": query
-  });
+  req.query("keywords="+query.split(' ').join("+"));
 
-  req.headers({
+  reqer.headers({
     "postman-token": "ef3376d0-c06b-4ed0-338e-66e8f0aaef3f",
     "cookie": "__cfduid=d22ea27c19b5706481d59f2f4881ff9611475628843; watchily=ke0402nmnqn8m9cpgu8o73bnc0; _ga=GA1.2.586505558.1475628844; _gat=1",
     "accept-language": "en-US,en;q=0.8",
@@ -50,9 +48,9 @@ var Caller = function(query, caller){
     "host": "watchi.ly"
   });
 
-    req.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"jurassic\"}");
+    reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"jurassic\"}");
 
-  req.end(function (res) {
+  reqer.end(function (res) {
     if (res.error) throw new Error(res.error);
 
     // console.log(res.body);
@@ -68,7 +66,7 @@ var Caller = function(query, caller){
         weight: 0.45
       }], threshold: 0.5,
     };
-    console.log(JSON.stringify(res.body))
+    console.log(JSON.stringify(res.body) + "QUER" + query)
     var fuse = new Fuse(res.body, options)
     caller(fuse.search(query));
   });
