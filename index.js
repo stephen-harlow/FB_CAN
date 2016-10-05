@@ -68,6 +68,7 @@ var Caller = function(query, caller){
         weight: 0.45
       }], threshold: 0.5,
     };
+    console.log(JSON.stringify(res.body))
     var fuse = new Fuse(res.body, options)
     caller(fuse.search(query));
   });
