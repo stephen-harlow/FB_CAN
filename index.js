@@ -197,10 +197,15 @@ function sendGenericMessage(sender, results) {
       var arrFound = buttons.filter(function(item) {
         return item.title == source.title;
       });
-      if(arrFound.length > 0){
+      if(arrFound.length > 0 ){
         console.log(arrFound)
           var ind = buttons.indexOf(arrFound[0]);
-          buttons[ind].buttons.push(source.buttons[0])
+          if(buttons[ind].buttons.length < 3){
+            buttons[ind].buttons.push(source.buttons[0])
+          }
+          else{
+            buttons.push(source)
+          }
       }
       else{
         buttons.push(source)
