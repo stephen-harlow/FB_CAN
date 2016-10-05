@@ -222,6 +222,6 @@ function sendGenericMessage(sender, results) {
               console.log('Error: ', response.body.error)
           }
       })
-    };
+    });
 
 }
