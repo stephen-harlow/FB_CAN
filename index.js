@@ -129,6 +129,7 @@ app.listen(app.get('port'), function() {
 })
 function GenMainCard(mediaEntity){
   var card = {};
+  console.log(mediaEntity)
   card["title"] = mediaEntity.title + "(" + mediaEntity.certification + ")";
   card["subtitle"] = mediaEntity.directors + "(" + mediaEntity.year + ")";
   card["image_url"] = mediaEntity.poster;
