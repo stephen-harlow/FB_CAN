@@ -171,7 +171,7 @@ function genSource(Entity){
       "type": "web_url",
       "url": Entity.url,
       "title": "Go to " + ret["title"]
-  }
+  }]
   return ret;
 }
 function sendGenericMessage(sender, results) {
