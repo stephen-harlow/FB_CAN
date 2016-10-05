@@ -9,7 +9,24 @@ const unirest = require("unirest");
 
 const Fuse = require("fuse.js");
 const reqer = unirest("GET", "http://watchi.ly/ajaxSearch.php");
-
+const IMAGE_LINKS = {
+  "amazon": "http://watchi.ly/images/providers/amazon.png",
+  "comcastxfinity": "http://watchi.ly/images/providers/xfinity.png",
+  "itunes": "http://watchi.ly/images/providers/itunes.png",
+  "hbogo": "http://watchi.ly/images/providers/hbo.png",
+  "netflix": "http://watchi.ly/images/providers/netflix.png",
+  "showtime": "http://cdn.exstreamist.com/wp-content/uploads/2015/06/showtime-watch-online.jpg",
+  "maxgo": "http://watchi.ly/images/providers/maxgo.png"
+}
+const TITLE_LINKS = {
+  "amazon": "Amazon",
+  "comcastxfinity": "Comcast/XFinity",
+  "itunes": "iTunes",
+  "hbogo": "HBO GO",
+  "netflix": "Netflix",
+  "showtime": "Showtime",
+  "maxgo": "MAX GO"
+}
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -145,11 +162,25 @@ function GenMainCard(mediaEntity){
   return card;
 
 }
+function genSource(Entity){
+  var ret = {};
+  ret["image_url"] = IMAGE_LINKS[Entity["source"]]
+  ret["title"] = TITLE_LINKS[Entity["source"]]
+  ret["subtitle"] = "$" + parseInt(Entity.cost)/100.0
+  ret.buttons = [{
+      "type": "web_url",
+      "url": Entity.url,
+      "title": "Go to " + ret["title"]
+  }
+  return ret;
+}
 function sendGenericMessage(sender, results) {
     var first_item = results[0];
     var ez = []
     ez.push(GenMainCard(first_item.mediaEntity))
-
+    for (item in first_item.sources){
+      ez.push(genSource(item));
+    }
     let messageData = {
         "attachment": {
             "type": "template",
