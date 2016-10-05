@@ -63,7 +63,7 @@ var Caller = function(query, caller){
     };
     var fuse = new Fuse(res.body["items"], options)
     var s = fuse.search(query)[0]
-
+    console.log("\n\n\n" + s);
     caller(s);
   });
 }
@@ -185,7 +185,7 @@ function genSource(Entity, providers){
 function sendGenericMessage(sender, results) {
     var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
 
-    var s = results[0];
+    var s = results;
     if(s == null){
       return sendTextMessage(sender, "No Results");
     }
