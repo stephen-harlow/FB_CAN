@@ -165,7 +165,7 @@ function genSource(Entity, providers){
   var arrFound = providers.filter(function(item) {
     return item.id == given_id;
   })[0];
-  ret["image_url"] = "https://static.justwatch.com"+arrFound["icon_url"].replace("{profile}", "s100/")
+  ret["image_url"] = arrFound["icon_url"]
   ret["title"] = arrFound["clear_name"]
   ret["subtitle"] = "Visit ";
   var base = "";
@@ -195,7 +195,7 @@ function sendGenericMessage(sender, results) {
     for (var i = 0; i < arrayLength; i++) {
       var source = genSource(s["offers"][i], providers)
       var arrFound = buttons.filter(function(item) {
-        return item.title == source.title;
+        return item.title == source.title && item;
       });
       if(arrFound.length > 0 ){
         console.log(arrFound)

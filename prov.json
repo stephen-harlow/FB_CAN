@@ -13,7 +13,7 @@
     "display_priority": 1,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/430997/{profile}",
+    "icon_url": "https://cdn2.iconfinder.com/data/icons/metro-uinvert-dock/256/Netflix.png",
     "slug": "netflix"
 }, {
     "id": 9,
@@ -30,7 +30,7 @@
     "display_priority": 2,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/430994/{profile}",
+    "icon_url": "http://cerebral-overload.com/wp-content/uploads/2015/09/amazon-prime-instant-video-logo.jpg",
     "slug": "amazon-prime-instant-video"
 }, {
     "id": 27,
@@ -47,7 +47,7 @@
     "display_priority": 3,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/575598/{profile}",
+    "icon_url": "http://www.indiewire.com/wp-content/uploads/2015/03/hbo-now-logo.jpg",
     "slug": "hbo-now"
 }, {
     "id": 15,
@@ -64,7 +64,7 @@
     "display_priority": 4,
     "domains": [],
     "monetization_types": ["ads", "flatrate"],
-    "icon_url": "/icon/833221/{profile}",
+    "icon_url": "https://www.wired.com/wp-content/uploads/2015/09/Hulu_logo.jpg",
     "slug": "hulu"
 }, {
     "id": 92,
@@ -98,7 +98,7 @@
     "display_priority": 6,
     "domains": [],
     "monetization_types": ["ads"],
-    "icon_url": "/icon/438827/{profile}",
+    "icon_url": "http://bpoil.org/wp-content/uploads/2016/04/Download-Crackle-Movies-TV-For-Windows-Android-iOS.png",
     "slug": "crackle"
 }, {
     "id": 73,
@@ -115,7 +115,7 @@
     "display_priority": 7,
     "domains": [],
     "monetization_types": ["ads"],
-    "icon_url": "/icon/911362/{profile}",
+    "icon_url": "http://www.thestreamingadvisor.com/wp-content/uploads/2016/03/tubi_logo_now-playing-no-paying_black.png",
     "slug": "tubi-tv"
 }, {
     "id": 34,
@@ -132,7 +132,7 @@
     "display_priority": 8,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/633230/{profile}",
+    "icon_url": "http://mms.businesswire.com/media/20160714005171/en/534792/5/FINAL_EPIX_LOGO.jpg",
     "slug": "epix"
 }, {
     "id": 37,
@@ -149,7 +149,7 @@
     "display_priority": 9,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/677041/{profile}",
+    "icon_url": "http://tvseriesfinale.com/wp-content/uploads/2016/05/showtime-logo.jpg",
     "slug": "showtime"
 }, {
     "id": 43,
@@ -166,7 +166,7 @@
     "display_priority": 10,
     "domains": [],
     "monetization_types": ["flatrate", "free"],
-    "icon_url": "/icon/902247/{profile}",
+    "icon_url": "http://www.logospike.com/wp-content/uploads/2015/05/Starz_Logo_02.png",
     "slug": "starz"
 }, {
     "id": 2,
@@ -183,7 +183,7 @@
     "display_priority": 11,
     "domains": [],
     "monetization_types": ["rent", "buy"],
-    "icon_url": "/icon/430995/{profile}",
+    "icon_url": "http://bestappsforpc.net/wp-content/uploads/2014/06/iTunes.jpg",
     "slug": "apple-itunes"
 }, {
     "id": 10,
@@ -200,7 +200,7 @@
     "display_priority": 12,
     "domains": [],
     "monetization_types": ["rent", "buy"],
-    "icon_url": "/icon/430993/{profile}",
+    "icon_url": "http://3.bp.blogspot.com/-sanxgAoaNVA/VVL8YAyhRdI/AAAAAAAABCQ/ysAKLNrIV3Y/s1600/amazon-instant-video-logo.jpg",
     "slug": "amazon-instant-video"
 }, {
     "id": 3,
@@ -217,7 +217,7 @@
     "display_priority": 13,
     "domains": [],
     "monetization_types": ["buy", "rent"],
-    "icon_url": "/icon/430996/{profile}",
+    "icon_url": "http://logok.org/wp-content/uploads/2015/01/Google-Play-logo-wordmark-1024x768.png",
     "slug": "google-play-movies"
 }, {
     "id": 7,
@@ -234,7 +234,7 @@
     "display_priority": 14,
     "domains": [],
     "monetization_types": ["rent", "buy"],
-    "icon_url": "/icon/430998/{profile}",
+    "icon_url": "http://cdn.slashgear.com/wp-content/uploads/2013/12/vudu-820x420.jpg",
     "slug": "vudu"
 }, {
     "id": 18,
@@ -251,7 +251,7 @@
     "display_priority": 15,
     "domains": [],
     "monetization_types": ["rent", "buy"],
-    "icon_url": "/icon/446737/{profile}",
+    "icon_url": "https://i.ytimg.com/vi/DmoZAPDV3ew/maxresdefault.jpg",
     "slug": "playstation"
 }, {
     "id": 68,
@@ -268,7 +268,7 @@
     "display_priority": 16,
     "domains": [],
     "monetization_types": ["buy", "rent"],
-    "icon_url": "/icon/820542/{profile}",
+    "icon_url": "http://blogs.microsoft.com/wp-content/uploads/2012/08/8867.Microsoft_5F00_Logo_2D00_for_2D00_screen.jpg",
     "slug": "microsoft-store"
 }, {
     "id": 25,
@@ -285,7 +285,7 @@
     "display_priority": 17,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/554608/{profile}",
+    "icon_url": "http://www.hammertonail.com/wp-content/uploads/2012/01/Fandor_Logo-copy.jpg",
     "slug": "fandor"
 }, {
     "id": 80,
@@ -302,7 +302,7 @@
     "display_priority": 18,
     "domains": [],
     "monetization_types": ["free"],
-    "icon_url": "/icon/922527/{profile}",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Amc_logo.svg/2000px-Amc_logo.svg.png",
     "slug": "amc"
 }, {
     "id": 83,
@@ -319,7 +319,7 @@
     "display_priority": 19,
     "domains": [],
     "monetization_types": ["flatrate", "free"],
-    "icon_url": "/icon/950814/{profile}",
+    "icon_url": "http://leakynews.s3.amazonaws.com/pub/wp-content/uploads/2014/05/12-the-cw.jpg",
     "slug": "the-cw"
 }, {
     "id": 14,
@@ -336,7 +336,7 @@
     "display_priority": 20,
     "domains": [],
     "monetization_types": ["flatrate", "rent", "buy"],
-    "icon_url": "/icon/441358/{profile}",
+    "icon_url": "https://s3-media1.fl.yelpcdn.com/bphoto/muu7tvKHZIyw6imlyMnsaw/o.jpg",
     "slug": "realeyz"
 }, {
     "id": 11,
@@ -353,7 +353,7 @@
     "display_priority": 21,
     "domains": [],
     "monetization_types": ["flatrate"],
-    "icon_url": "/icon/438826/{profile}",
+    "icon_url": "http://uk.playstation.com/media/5fbXEvfu/10008/mubi_vf3.jpg",
     "slug": "mubi"
 }, {
     "id": 60,
@@ -370,6 +370,6 @@
     "display_priority": 22,
     "domains": [],
     "monetization_types": ["cinema"],
-    "icon_url": "/icon/811323/{profile}",
+    "icon_url": "http://www.cashbackholic.com/images//fandango.png",
     "slug": "fandango"
 }]
