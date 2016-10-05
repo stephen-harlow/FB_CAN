@@ -8,27 +8,8 @@ const Nightmare = require('nightmare');
 const unirest = require("unirest");
 
 const Fuse = require("fuse.js");
-const reqer = unirest("GET", "http://watchi.ly/ajaxSearch.php");
-const IMAGE_LINKS = {
-  "amazon": "http://3.bp.blogspot.com/-sanxgAoaNVA/VVL8YAyhRdI/AAAAAAAABCQ/ysAKLNrIV3Y/s1600/amazon-instant-video-logo.jpg",
-  "comcastxfinity": "http://watchi.ly/images/providers/xfinity.png",
-  "itunes": "http://1.bp.blogspot.com/-5xyNqP5DiOs/UhsqtOh78ZI/AAAAAAAAAlo/0KMQxRxZZqI/s1600/Logo+iTunes.JPG",
-  "hbogo": "http://hbobinge.com/files/2015/09/HBO-Go.jpg",
-  "netflix": "https://i.kinja-img.com/gawker-media/image/upload/fpqabe341bwut16xkmuj.png",
-  "showtime": "http://cdn.exstreamist.com/wp-content/uploads/2015/06/showtime-watch-online.jpg",
-  "redbox": "http://www.underconsideration.com/brandnew/archives/redbox_logo.png",
-  "maxgo": "http://watchi.ly/images/providers/maxgo.png"
-}
-const TITLE_LINKS = {
-  "amazon": "Amazon",
-  "comcastxfinity": "Comcast/XFinity",
-  "itunes": "iTunes",
-  "hbogo": "HBO GO",
-  "netflix": "Netflix",
-  "showtime": "Showtime",
-  "redbox":"RedBox",
-  "maxgo": "MAX GO"
-}
+const reqer = unirest("POST", "https://api.justwatch.com/titles/en_US/popular");
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -49,46 +30,41 @@ app.get('/webhook/', function (req, res) {
   }
   res.send('Error, wrong token')
 })
+String.prototype.toProperCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
 var Caller = function(query, caller){
 
-  reqer.query("keywords="+query.split(' ').join("+"));
-
-  reqer.headers({
-    "postman-token": "ef3376d0-c06b-4ed0-338e-66e8f0aaef3f",
-    "cookie": "__cfduid=d22ea27c19b5706481d59f2f4881ff9611475628843; watchily=ke0402nmnqn8m9cpgu8o73bnc0; _ga=GA1.2.586505558.1475628844; _gat=1",
-    "accept-language": "en-US,en;q=0.8",
-    "accept-encoding": "gzip, deflate, sdch",
-    "referer": "http://watchi.ly/index.php?search=jurassic",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
-    "x-requested-with": "XMLHttpRequest",
-    "accept": "application/json, text/javascript, */*; q=0.01",
+  req.headers({
     "cache-control": "no-cache",
-    "connection": "keep-alive",
-    "host": "watchi.ly"
+    "accept-language": "en-US,en;q=0.8",
+    "accept-encoding": "gzip, deflate, br",
+    "referer": "https://www.justwatch.com/us?providers=itu,ply,vdu,nfx,amp,amz,mbi,crk,rlz,hlu,pls,fnd,hbn,epx,sho,stz,msf,tbv,amc,tcw,viewyahoo",
+    "content-type": "application/json;charset=UTF-8",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "origin": "https://www.justwatch.com",
+    "accept": "application/json, text/plain, */*"
   });
-
-    reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"jurassic\"}");
-
+  req.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + "\"}");
   reqer.end(function (res) {
     if (res.error) throw new Error(res.error);
-
     // console.log(res.body);
     var options = {
       keys: [{
-        name: 'mediaEntity.title',
+        name: 'title',
         weight: 0.5
       }, {
-        name: 'mediaEntity.directors',
+        name: 'credits.name',
         weight: 0.55
       }, {
         name: 'sources.source',
         weight: 0.45
       }], threshold: 0.5,
     };
-    console.log(reqer.options.url)
-    // console.log(JSON.stringify(res.body) + "QUER" + query)
-    var fuse = new Fuse(res.body, options)
-    caller(fuse.search(query));
+    var fuse = new Fuse(res.body["items"], options)
+    var s = fuse.search(query)[0]
+
+    caller(s);
   });
 }
 
@@ -146,75 +122,101 @@ function sendTextMessage(sender, text) {
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
 })
-function GenMainCard(mediaEntity, callback){
+function GenMainCard(mediaEntity){
   var card = {};
-  var request = require('request');
-  request.get("https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB + "&query=" + mediaEntity.title, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var csv = JSON.parse(body);
-        if(csv != null && csv.results != null && csv.results[0] != null && csv.results[0].poster_path != null){
-          card["image_url"] = "http://image.tmdb.org/t/p/w500/" + csv.results[0].poster_path;
-
-        }
-        // Continue with your processing here.
+  card["title"] = mediaEntity.title + " (" + mediaEntity.original_release_year + ")";
+  console.log(mediaEntity.credits.length)
+  if(mediaEntity.credits.length > 2){
+    console.log("HEHEHE")
+    var nums = Math.min(mediaEntity.credits.length, 3)
+    var start = 0;
+    subtitle = ""
+    while(start != nums){
+      subtitle = subtitle + "" + mediaEntity.credits[start].name;
+      if(start != nums-1){
+        subtitle += ", ";
+      }
+      start = start + 1;
     }
-    card["title"] = mediaEntity.title + " (" + mediaEntity.certification + ")";
-    card["subtitle"] = mediaEntity.directors + " (" + mediaEntity.year + ")";
-    if (mediaEntity.imdb_id != null) {
-      var butt = [{
-          "type": "web_url",
-          "url": "http://www.imdb.com/title/" + mediaEntity.imdb_id,
-          "title": "IMDB"
-      }]
+    card["subtitle"] = subtitle;
 
-      card["buttons"] = butt
-    }
-    callback(card);
-  });
+  }
+  else{
+    card["subtitle"] = "movie";
+  }
+  card["image_url"] = "https://static.justwatch.com"+mediaEntity["poster"].replace("{profile}", "s166/")
 
+  if (mediaEntity.imdb_id != null) {
+    var butt = [{
+        "type": "web_url",
+        "url": "https://www.justwatch.com" + mediaEntity.full_path,
+        "title": "View"
+    }]
+
+    card["buttons"] = butt
+  }
+  return card
 
 }
-function genSource(Entity){
+function genSource(Entity, providers){
+  console.log(Entity)
   var ret = {};
-
-  ret["image_url"] = IMAGE_LINKS[Entity["source"]]
-  ret["title"] = TITLE_LINKS[Entity["source"]]
-  ret["subtitle"] = "$" + parseInt(Entity.cost)/100.0
-  //TODO: ADD (DATE CHECKED) TO PRICE
-
+  var given_id = Entity.provider_id;
+  var arrFound = providers.filter(function(item) {
+    return item.id == given_id;
+  })[0];
+  ret["image_url"] = "https://static.justwatch.com"+arrFound["icon_url"].replace("{profile}", "s100/")
+  ret["title"] = arrFound["clear_name"]
+  ret["subtitle"] = "Visit ";
+  var base = "";
+  var type = "";
+  if(typeof Entity.retail_price !== "undefined"){
+    base = "$" + Entity.retail_price + " to "
+    type = " in " + Entity.presentation_type.toUpperCase()
+  }
   ret.buttons = [{
       "type": "web_url",
-      "url": Entity.url,
-      "title": "Go to " + ret["title"]
+      "url": Entity["urls"]["standard_web"],
+      "title":  base +  Entity.monetization_type.toProperCase() + type
   }]
   return ret;
 }
+
 function sendGenericMessage(sender, results) {
-    var first_item = results[0];
-    if(first_item == null){
+    var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
+
+    var s = results[0];
+    if(s == null){
       return sendTextMessage(sender, "No Results");
     }
-
-    console.log(JSON.stringify(first_item))
-    var ez = []
-    GenMainCard((first_item.mediaEntity), function(mainer){
-      ez.push(mainer)
-      var arrayLength = first_item["sources"].length;
-      for (var i = 0; i < arrayLength; i++) {
-        console.log(JSON.stringify(first_item["sources"][i]))
-        ez.push(genSource(first_item["sources"][i]));
-
+    var arrayLength = s["offers"].length;
+    var buttons = []
+    buttons.push(GenMainCard(s))
+    for (var i = 0; i < arrayLength; i++) {
+      var source = genSource(s["offers"][i], providers)
+      var arrFound = buttons.filter(function(item) {
+        return item.title == source.title;
+      });
+      if(arrFound.length > 0){
+        console.log(arrFound)
+          var ind = buttons.indexOf(arrFound[0]);
+          buttons[ind].buttons.push(source.buttons[0])
       }
-      console.log(ez)
-      if(ez.length > 10){
-        ez = ez.slice(0, 10);
+      else{
+        buttons.push(source)
+      }
+    }
+    console.log(JSON.stringify(first_item))
+
+      if(buttons.length > 12){
+        ez = buttons.slice(0, 12);
       }
       let messageData = {
           "attachment": {
               "type": "template",
               "payload": {
                   "template_type": "generic",
-                  "elements":ez
+                  "elements":buttons
               }
           }
       }
@@ -235,6 +237,6 @@ function sendGenericMessage(sender, results) {
               console.log('Error: ', response.body.error)
           }
       })
-    });
+
 
 }
