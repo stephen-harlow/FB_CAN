@@ -211,6 +211,9 @@ function sendGenericMessage(sender, results) {
           }
       }
       else{
+        if(buttons.length > 0 && source.title == "Flatrate"){
+          continue
+        }
         buttons.push(source)
       }
     }
