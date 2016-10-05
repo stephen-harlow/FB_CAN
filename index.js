@@ -32,7 +32,7 @@ app.get('/webhook/', function (req, res) {
 })
 var Caller = function(query, caller){
 
-  req.query("keywords="+query.split(' ').join("+"));
+  reqer.query("keywords="+query.split(' ').join("+"));
 
   reqer.headers({
     "postman-token": "ef3376d0-c06b-4ed0-338e-66e8f0aaef3f",
