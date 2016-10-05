@@ -87,7 +87,7 @@ app.post('/webhook/', function (req, res) {
       console.log("Searching")
       Caller(text, function(param){
         console.log("Returning first 100 characters");
-        sendTextMessage(sender,getText(param.substring(0, 100))+ "****** echo: " +text.substring(0, 200))
+        sendTextMessage(sender,param.substring(0, 100)+ "****** echo: " +text.substring(0, 200))
       });
       // console(.substring(0, 200));
 
