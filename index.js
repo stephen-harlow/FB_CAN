@@ -172,7 +172,7 @@ function genSource(Entity, providers){
   var type = "";
   if(typeof Entity.retail_price !== "undefined"){
     base = "$" + Entity.retail_price + ""
-    type = " in " + Entity.presentation_type.toUpperCase()
+    type = " " + Entity.presentation_type.toUpperCase()
   }
   var extra = "";
   if(Entity.monetization_type.toProperCase() != "Flatrate"){
