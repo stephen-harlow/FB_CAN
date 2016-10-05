@@ -144,25 +144,35 @@ function sendTextMessage(sender, text) {
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
 })
-function GenMainCard(mediaEntity){
+function GenMainCard(mediaEntity, callback){
   var card = {};
-  card["title"] = mediaEntity.title + " (" + mediaEntity.certification + ")";
-  card["subtitle"] = mediaEntity.directors + " (" + mediaEntity.year + ")";
+  var request = require('request');
+  request.get("https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB + "&query=" + s.mediaEntity.title, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        var csv = body;
+        card["image_url"] = "http://image.tmdb.org/t/p/w500/" + JSON.parse(body).results[0].poster_path;
+        // Continue with your processing here.
+    }
+    card["title"] = mediaEntity.title + " (" + mediaEntity.certification + ")";
+    card["subtitle"] = mediaEntity.directors + " (" + mediaEntity.year + ")";
 
-  if (mediaEntity.imdb_id != null) {
-    var butt = [{
-        "type": "web_url",
-        "url": "http://www.imdb.com/title/" + mediaEntity.imdb_id,
-        "title": "IMDB"
-    }]
+    if (mediaEntity.imdb_id != null) {
+      var butt = [{
+          "type": "web_url",
+          "url": "http://www.imdb.com/title/" + mediaEntity.imdb_id,
+          "title": "IMDB"
+      }]
 
-    card["buttons"] = butt
-  }
-  return card;
+      card["buttons"] = butt
+    }
+    callback(card);
+  });
+
 
 }
 function genSource(Entity){
   var ret = {};
+
   ret["image_url"] = IMAGE_LINKS[Entity["source"]]
   ret["title"] = TITLE_LINKS[Entity["source"]]
   ret["subtitle"] = "$" + parseInt(Entity.cost)/100.0
@@ -177,61 +187,41 @@ function sendGenericMessage(sender, results) {
     var first_item = results[0];
     console.log(JSON.stringify(first_item))
     var ez = []
-    ez.push(GenMainCard(first_item.mediaEntity))
-    var arrayLength = first_item["sources"].length;
-    for (var i = 0; i < arrayLength; i++) {
-      console.log(JSON.stringify(first_item["sources"][i]))
-      ez.push(genSource(first_item["sources"][i]));
+    GenMainCard((first_item.mediaEntity), function(mainer){
+      ez.push(mainer)
+      var arrayLength = first_item["sources"].length;
+      for (var i = 0; i < arrayLength; i++) {
+        console.log(JSON.stringify(first_item["sources"][i]))
+        ez.push(genSource(first_item["sources"][i]));
 
-    }
+      }
 
-    let messageData = {
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements":ez
-            }
-        }
-    }
-    console.log(ez)
-    /*
-    [{
-       "title": "First card",
-       "subtitle": "Element #1 of an hscroll",
-       "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
-       "buttons": [{
-           "type": "web_url",
-           "url": "https://www.messenger.com",
-           "title": "web url"
-       }, {
-           "type": "postback",
-           "title": "Postback",
-           "payload": "Payload for first element in a generic bubble",
-       }],
-   }, {
-       "title": "Second card",
-       "subtitle": "Element #2 of an hscroll",
-       "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
-       "buttons": [{
-           "type": "postback",
-           "title": "Postback",
-           "payload": "Payload for second element in a generic bubble",
-       }],
-   }]*/
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: messageData,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
+      let messageData = {
+          "attachment": {
+              "type": "template",
+              "payload": {
+                  "template_type": "generic",
+                  "elements":ez
+              }
+          }
+      }
+      console.log(ez)
+
+      request({
+          url: 'https://graph.facebook.com/v2.6/me/messages',
+          qs: {access_token:token},
+          method: 'POST',
+          json: {
+              recipient: {id:sender},
+              message: messageData,
+          }
+      }, function(error, response, body) {
+          if (error) {
+              console.log('Error sending messages: ', error)
+          } else if (response.body.error) {
+              console.log('Error: ', response.body.error)
+          }
+      })
+    };
+
 }
