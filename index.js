@@ -16,6 +16,7 @@ const IMAGE_LINKS = {
   "hbogo": "http://hbobinge.com/files/2015/09/HBO-Go.jpg",
   "netflix": "https://i.kinja-img.com/gawker-media/image/upload/fpqabe341bwut16xkmuj.png",
   "showtime": "http://cdn.exstreamist.com/wp-content/uploads/2015/06/showtime-watch-online.jpg",
+  "redbox": "http://www.underconsideration.com/brandnew/archives/redbox_logo.png",
   "maxgo": "http://watchi.ly/images/providers/maxgo.png"
 }
 const TITLE_LINKS = {
@@ -25,6 +26,7 @@ const TITLE_LINKS = {
   "hbogo": "HBO GO",
   "netflix": "Netflix",
   "showtime": "Showtime",
+  "redbox":"RedBox",
   "maxgo": "MAX GO"
 }
 app.set('port', (process.env.PORT || 5000))
