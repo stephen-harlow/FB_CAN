@@ -188,6 +188,10 @@ function genSource(Entity){
 }
 function sendGenericMessage(sender, results) {
     var first_item = results[0];
+    if(first_item == null){
+      return sendTextMessage(sender, "No Results");
+    }
+
     console.log(JSON.stringify(first_item))
     var ez = []
     GenMainCard((first_item.mediaEntity), function(mainer){
