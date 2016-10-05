@@ -175,6 +175,7 @@ function genSource(Entity){
 }
 function sendGenericMessage(sender, results) {
     var first_item = results[0];
+    console.log(JSON.stringify(first_item))
     var ez = []
     ez.push(GenMainCard(first_item.mediaEntity))
     for (var item in first_item.sources){
