@@ -132,12 +132,12 @@ function GenMainCard(mediaEntity){
   console.log(mediaEntity)
   card["title"] = mediaEntity.title + "(" + mediaEntity.certification + ")";
   card["subtitle"] = mediaEntity.directors + "(" + mediaEntity.year + ")";
-  // card["image_url"] = "http://www.imdb.com/title/" + mediaEntity.imdb_id;
+  card["image_url"] = "https://itunes.apple.com/us/movie/jurassic-park/id452283395?uo=5&at=11lrLP";
 
   if (mediaEntity.imdb_id != null) {
     var butt = [{
         "type": "web_url",
-        "url": card["image_url"],
+        "url": "http://www.imdb.com/title/" + mediaEntity.imdb_id,
         "title": "IMDB"
     }]
 
