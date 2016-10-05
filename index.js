@@ -184,10 +184,7 @@ function sendGenericMessage(sender, results) {
       ez.push(genSource(first_item["sources"][i]));
 
     }
-    for (var item in first_item["sources"]){
-      console.log(JSON.stringify(item))
-      ez.push(genSource(item));
-    }
+  
     let messageData = {
         "attachment": {
             "type": "template",
