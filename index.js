@@ -158,7 +158,6 @@ function GenMainCard(mediaEntity, callback){
     }
     card["title"] = mediaEntity.title + " (" + mediaEntity.certification + ")";
     card["subtitle"] = mediaEntity.directors + " (" + mediaEntity.year + ")";
-
     if (mediaEntity.imdb_id != null) {
       var butt = [{
           "type": "web_url",
@@ -179,6 +178,8 @@ function genSource(Entity){
   ret["image_url"] = IMAGE_LINKS[Entity["source"]]
   ret["title"] = TITLE_LINKS[Entity["source"]]
   ret["subtitle"] = "$" + parseInt(Entity.cost)/100.0
+  //TODO: ADD (DATE CHECKED) TO PRICE
+
   ret.buttons = [{
       "type": "web_url",
       "url": Entity.url,
@@ -213,7 +214,9 @@ function sendGenericMessage(sender, results) {
           }
       }
       console.log(ez)
-
+      if(ez.length > 10){
+        ez = ez.slice(0, 10);
+      }
       request({
           url: 'https://graph.facebook.com/v2.6/me/messages',
           qs: {access_token:token},
@@ -226,6 +229,7 @@ function sendGenericMessage(sender, results) {
           if (error) {
               console.log('Error sending messages: ', error)
           } else if (response.body.error) {
+
               console.log('Error: ', response.body.error)
           }
       })
