@@ -146,7 +146,6 @@ app.listen(app.get('port'), function() {
 })
 function GenMainCard(mediaEntity){
   var card = {};
-  console.log(mediaEntity)
   card["title"] = mediaEntity.title + " (" + mediaEntity.certification + ")";
   card["subtitle"] = mediaEntity.directors + " (" + mediaEntity.year + ")";
 
@@ -169,7 +168,7 @@ function genSource(Entity){
   ret["subtitle"] = "$" + parseInt(Entity.cost)/100.0
   ret.buttons = [{
       "type": "web_url",
-      "url": Entity.url,
+      "url": IMAGE_LINKS[Entity["source"]],
       "title": "Go to " + ret["title"]
   }]
   return ret;
@@ -190,6 +189,7 @@ function sendGenericMessage(sender, results) {
             }
         }
     }
+    console.log(ez)
     /*
     [{
        "title": "First card",
