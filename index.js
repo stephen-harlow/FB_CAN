@@ -206,7 +206,7 @@ function sendGenericMessage(sender, results) {
         buttons.push(source)
       }
     }
-    console.log(JSON.stringify(first_item))
+    console.log(JSON.stringify(s))
 
       if(buttons.length > 12){
         ez = buttons.slice(0, 12);
