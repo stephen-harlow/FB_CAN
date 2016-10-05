@@ -82,7 +82,7 @@ app.post('/webhook/', function (req, res) {
     let event = req.body.entry[0].messaging[i]
     let sender = event.sender.id
     if (event.message && event.message.text) {
-      let text = event.message.text.replaceAll(" ", "+")
+      let text = replaceAll(event.message.text, " ", "+")
       console.log(text.substring(0,200));
       console.log("Searching")
       Caller(text, function(param){
@@ -106,6 +106,9 @@ app.post('/webhook/', function (req, res) {
 })
 
 const token = process.env.ACCESS_TOKEN
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
 function sendTextMessage(sender, text) {
   let messageData = { text:text }
   request({
