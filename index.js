@@ -144,7 +144,7 @@ function GenMainCard(mediaEntity){
   else{
     card["subtitle"] = "movie";
   }
-  card["image_url"] = "https://static.justwatch.com"+mediaEntity["poster"].replace("{profile}", "s166/")
+  card["image_url"] = "https://static.justwatch.com"+mediaEntity["poster"].replace("{profile}", "s592/")
 
   if (mediaEntity.imdb_id != null) {
     var butt = [{
