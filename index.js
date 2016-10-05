@@ -147,7 +147,7 @@ app.listen(app.get('port'), function() {
 function GenMainCard(mediaEntity, callback){
   var card = {};
   var request = require('request');
-  request.get("https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB + "&query=" + s.mediaEntity.title, function (error, response, body) {
+  request.get("https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB + "&query=" + mediaEntity.title, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var csv = body;
         card["image_url"] = "http://image.tmdb.org/t/p/w500/" + JSON.parse(body).results[0].poster_path;
