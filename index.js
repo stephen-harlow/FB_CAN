@@ -10,11 +10,11 @@ const unirest = require("unirest");
 const Fuse = require("fuse.js");
 const reqer = unirest("GET", "http://watchi.ly/ajaxSearch.php");
 const IMAGE_LINKS = {
-  "amazon": "http://watchi.ly/images/providers/amazon.png",
+  "amazon": "http://3.bp.blogspot.com/-sanxgAoaNVA/VVL8YAyhRdI/AAAAAAAABCQ/ysAKLNrIV3Y/s1600/amazon-instant-video-logo.jpg",
   "comcastxfinity": "http://watchi.ly/images/providers/xfinity.png",
-  "itunes": "http://watchi.ly/images/providers/itunes.png",
-  "hbogo": "http://watchi.ly/images/providers/hbo.png",
-  "netflix": "http://watchi.ly/images/providers/netflix.png",
+  "itunes": "http://1.bp.blogspot.com/-5xyNqP5DiOs/UhsqtOh78ZI/AAAAAAAAAlo/0KMQxRxZZqI/s1600/Logo+iTunes.JPG",
+  "hbogo": "http://hbobinge.com/files/2015/09/HBO-Go.jpg",
+  "netflix": "https://i.kinja-img.com/gawker-media/image/upload/fpqabe341bwut16xkmuj.png",
   "showtime": "http://cdn.exstreamist.com/wp-content/uploads/2015/06/showtime-watch-online.jpg",
   "maxgo": "http://watchi.ly/images/providers/maxgo.png"
 }
@@ -184,7 +184,7 @@ function sendGenericMessage(sender, results) {
       ez.push(genSource(first_item["sources"][i]));
 
     }
-  
+
     let messageData = {
         "attachment": {
             "type": "template",
