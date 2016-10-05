@@ -70,7 +70,7 @@ var Caller = function(query, caller){
     };
     var fuse = new Fuse(res.body, options)
     console.log("\n\n\n\n\n\n\n")
-    callback(fuse.search(query.split("::")[1]));
+    caller(fuse.search(query.split("::")[1]));
   });
 }
 
