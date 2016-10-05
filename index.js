@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const Nightmare = require('nightmare');
+const unirest = require("unirest");
+
 const Fuse = require("fuse.js");
 const req = unirest("GET", "http://watchi.ly/ajaxSearch.php");
 
