@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const Nightmare = require('nightmare');
+const Fuse = require("fuse.js");
+const req = unirest("GET", "http://watchi.ly/ajaxSearch.php");
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -27,37 +29,49 @@ app.get('/webhook/', function (req, res) {
   res.send('Error, wrong token')
 })
 var Caller = function(query, caller){
-  var nightmare = Nightmare({ show: false })
-  var value = null
-  var doc = null
-  var night = Nightmare();
-  night.goto('https://www.justwatch.com/us/search?q=' + query)
-  .wait('.main-content__list-element')
-  .evaluate(function () {
-    return document.querySelector('.main-content--list').innerHTML;
-    // return
-  })
-  .end()
-  .then(function (result) {
-    value = result;
-    caller(result);
-    // console.log(value);
-  })
-  .catch(function (error) {
-    console.error('Search failed:', error);
+
+  req.query({
+    "keywords": query.split("::")[0]
+  });
+
+  req.headers({
+    "postman-token": "ef3376d0-c06b-4ed0-338e-66e8f0aaef3f",
+    "cookie": "__cfduid=d22ea27c19b5706481d59f2f4881ff9611475628843; watchily=ke0402nmnqn8m9cpgu8o73bnc0; _ga=GA1.2.586505558.1475628844; _gat=1",
+    "accept-language": "en-US,en;q=0.8",
+    "accept-encoding": "gzip, deflate, sdch",
+    "referer": "http://watchi.ly/index.php?search=jurassic",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "x-requested-with": "XMLHttpRequest",
+    "accept": "application/json, text/javascript, */*; q=0.01",
+    "cache-control": "no-cache",
+    "connection": "keep-alive",
+    "host": "watchi.ly"
+  });
+
+    req.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"jurassic\"}");
+
+  req.end(function (res) {
+    if (res.error) throw new Error(res.error);
+
+    // console.log(res.body);
+    var options = {
+      keys: [{
+        name: 'mediaEntity.title',
+        weight: 0.5
+      }, {
+        name: 'mediaEntity.directors',
+        weight: 0.55
+      }, {
+        name: 'sources.source',
+        weight: 0.45
+      }], threshold: 0.5,
+    };
+    var fuse = new Fuse(res.body, options)
+    console.log("\n\n\n\n\n\n\n")
+    callback(fuse.search(query.split("::")[1]));
   });
 }
 
-
-function getText(text){
-  var site_content = null;
-  var sitepage = null;
-  var phInstance = null;
-
-
-
-
-}
 app.post('/webhook/', function (req, res) {
 
 
