@@ -221,12 +221,12 @@ function sendGenericMessage(sender, results) {
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
           if(buttons[ind].buttons[j].title == source.buttons[0].title){ //there are multiple of the same thing
             flag = true;
-            buttons[0].subtitle += ", " + expert
+            buttons[ind].subtitle += ", " + expert
           }
         }
         if(flag == false){
           buttons[ind].buttons.push(source.buttons[0])
-          buttons[0].subtitle += expert
+          buttons[ind].subtitle += expert
         }
       }
       else{
