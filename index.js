@@ -171,13 +171,17 @@ function genSource(Entity, providers){
   var base = "";
   var type = "";
   if(typeof Entity.retail_price !== "undefined"){
-    base = "$" + Entity.retail_price + " to "
+    base = "$" + Entity.retail_price + ""
     type = " in " + Entity.presentation_type.toUpperCase()
+  }
+  var extra = "";
+  if(Entity.monetization_type.toProperCase() != "Flatrate"){
+    extra = ":";
   }
   ret.buttons = [{
       "type": "web_url",
       "url": Entity["urls"]["standard_web"],
-      "title":  base +  Entity.monetization_type.toProperCase() + type
+      "title":  Entity.monetization_type.toProperCase() + extra + base + type
   }]
   return ret;
 }
@@ -198,13 +202,23 @@ function sendGenericMessage(sender, results) {
         return item.title == source.title;
       });
       if(arrFound.length > 0 ){
-        if(source.title == "Flatrate"){
+        if(source.buttons[0].title == "Flatrate"){
           continue
         }
         console.log(arrFound)
           var ind = buttons.indexOf(arrFound[0]);
           if(buttons[ind].buttons.length < 3){
-            buttons[ind].buttons.push(source.buttons[0])
+            var flag = false;
+            for (var j = 0; j < buttons[ind].buttons.length; j++) {
+              if(buttons[ind].buttons[j].title.split(":")[0] == source.buttons[0].title.split(":")[0]){
+                flag = true;
+                buttons[ind].buttons[j].title = buttons[ind].buttons[j].title + "," + source.buttons[0].title.split(":")[1]
+              }
+            }
+            if(flag == false){
+
+              buttons[ind].buttons.push(source.buttons[0])
+                        }
           }
           else{
             buttons.push(source)
@@ -214,7 +228,10 @@ function sendGenericMessage(sender, results) {
         if(buttons.length > 0 && source.title == "Flatrate"){
           continue
         }
+        else{
         buttons.push(source)
+
+        }
       }
     }
     console.log(JSON.stringify(s))
