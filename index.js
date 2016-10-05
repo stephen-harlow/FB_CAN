@@ -33,7 +33,7 @@ app.get('/webhook/', function (req, res) {
 var Caller = function(query, caller){
 
   req.query({
-    "keywords": query.split("::")[0]
+    "keywords": query
   });
 
   req.headers({
@@ -70,7 +70,7 @@ var Caller = function(query, caller){
     };
     var fuse = new Fuse(res.body, options)
     console.log("\n\n\n\n\n\n\n")
-    caller(fuse.search(query.split("::")[1]));
+    caller(fuse.search(query));
   });
 }
 
@@ -86,14 +86,19 @@ app.post('/webhook/', function (req, res) {
       console.log(text.substring(0,200));
       console.log("Searching")
       Caller(text, function(param){
-        console.log("Returning first 100 characters");
-        sendTextMessage(sender, JSON.stringify(param).substring(0, 200) + "****** echo: " +text.substring(0, 50))
+
+        console.log("Returning Characters");
+        sendTextMessage(sender, "This is what I found")
+
+        sendGenericMessage(sender, param)
+        continue;
       });
       // console(.substring(0, 200));
 
     }
     if (event.postback) {
         let text = JSON.stringify(event.postback)
+
         sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name and the search query", token)
         continue
     }
@@ -124,3 +129,48 @@ function sendTextMessage(sender, text) {
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
 })
+function GenMainCard(mediaEntity){
+  var card = {};
+  card["title"] = mediaEntity.title + "(" + mediaEntity.certification + ")";
+  card["subtitle"] = mediaEntity.directors + "(" + mediaEntity.year + ")";
+  card["image_url"] = mediaEntity.poster;
+  if (mediaEntity.imdb_id != null) {
+    var butt = []
+    var firstb = {}
+    firstb["type"] = "web url";
+    firstb["url"] = "http://www.imdb.com/title/" + mediaEntity.imbd_id;
+    butt.push(firstb)
+    card["buttons"] = butt
+  }
+
+}
+function sendGenericMessage(sender, results) {
+    var first_item = results[0];
+    var ez = []
+    ez.push(GenMainCard(first_item.mediaEntity))
+
+    let messageData = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": ez
+            }
+        }
+    }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:token},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
