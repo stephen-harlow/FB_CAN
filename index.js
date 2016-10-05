@@ -214,8 +214,8 @@ function sendGenericMessage(sender, results) {
           }
       }
       console.log(ez)
-      if(ez.length > 10){
-        ez = ez.slice(0, 10);
+      if(ez.length > 6){
+        ez = ez.slice(0, 6);
       }
       request({
           url: 'https://graph.facebook.com/v2.6/me/messages',
