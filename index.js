@@ -150,7 +150,7 @@ function GenMainCard(mediaEntity, callback){
   request.get("https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB + "&query=" + mediaEntity.title, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         var csv = JSON.parse(body);
-        if(csv != null && csv.results != null){
+        if(csv != null && csv.results != null && csv.results[0] != null && csv.results[0].poster_path != null){
           card["image_url"] = "http://image.tmdb.org/t/p/w500/" + csv.results[0].poster_path;
 
         }
