@@ -178,7 +178,7 @@ function sendGenericMessage(sender, results) {
     var first_item = results[0];
     var ez = []
     ez.push(GenMainCard(first_item.mediaEntity))
-    for (item in first_item.sources){
+    for (var item in first_item.sources){
       ez.push(genSource(item));
     }
     let messageData = {
