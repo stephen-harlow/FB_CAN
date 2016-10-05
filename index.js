@@ -83,7 +83,7 @@ app.post('/webhook/', function (req, res) {
     let sender = event.sender.id
     if (event.message && event.message.text) {
       let text = replaceAll(event.message.text, " ", "+")
-      console.log(text.substring(0,200));
+      console.log(text);
       console.log("Searching")
       Caller(text, function(param){
 
