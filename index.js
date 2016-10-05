@@ -141,6 +141,7 @@ function GenMainCard(mediaEntity){
     butt.push(firstb)
     card["buttons"] = butt
   }
+  return card;
 
 }
 function sendGenericMessage(sender, results) {
