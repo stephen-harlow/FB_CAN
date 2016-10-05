@@ -195,9 +195,12 @@ function sendGenericMessage(sender, results) {
     for (var i = 0; i < arrayLength; i++) {
       var source = genSource(s["offers"][i], providers)
       var arrFound = buttons.filter(function(item) {
-        return item.title == source.title && item.title != "Flatrate";
+        return item.title == source.title;
       });
       if(arrFound.length > 0 ){
+        if(source.title == "Flatrate"){
+          continue
+        }
         console.log(arrFound)
           var ind = buttons.indexOf(arrFound[0]);
           if(buttons[ind].buttons.length < 3){
