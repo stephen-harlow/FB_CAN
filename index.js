@@ -86,8 +86,6 @@ app.post('/webhook/', function (req, res) {
       console.log("Searching")
       Caller(text, function(param){
         console.log("Returning Characters");
-        sendTextMessage(sender, "This is what I found")
-
         sendGenericMessage(sender, param)
       });
       // console(.substring(0, 200));
