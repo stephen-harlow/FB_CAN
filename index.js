@@ -66,7 +66,8 @@ var Caller = function(query, caller){
         weight: 0.45
       }], threshold: 0.5,
     };
-    console.log(JSON.stringify(res.body) + "QUER" + query)
+    console.log(reqer.options.url)
+    // console.log(JSON.stringify(res.body) + "QUER" + query)
     var fuse = new Fuse(res.body, options)
     caller(fuse.search(query));
   });
@@ -84,8 +85,6 @@ app.post('/webhook/', function (req, res) {
       console.log(text);
       console.log("Searching")
       Caller(text, function(param){
-        console.log(param)
-
         console.log("Returning Characters");
         sendTextMessage(sender, "This is what I found")
 
@@ -156,7 +155,29 @@ function sendGenericMessage(sender, results) {
             "type": "template",
             "payload": {
                 "template_type": "generic",
-                "elements":ez
+                "elements":[{
+                   "title": "First card",
+                   "subtitle": "Element #1 of an hscroll",
+                   "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+                   "buttons": [{
+                       "type": "web_url",
+                       "url": "https://www.messenger.com",
+                       "title": "web url"
+                   }, {
+                       "type": "postback",
+                       "title": "Postback",
+                       "payload": "Payload for first element in a generic bubble",
+                   }],
+               }, {
+                   "title": "Second card",
+                   "subtitle": "Element #2 of an hscroll",
+                   "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+                   "buttons": [{
+                       "type": "postback",
+                       "title": "Postback",
+                       "payload": "Payload for second element in a generic bubble",
+                   }],
+               }]
             }
         }
     }
