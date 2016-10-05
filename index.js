@@ -6,7 +6,7 @@ const request = require('request')
 const app = express()
 const Nightmare = require('nightmare');
 const unirest = require("unirest");
-
+const fs = require("fs");
 const Fuse = require("fuse.js");
 const reqer = unirest("POST", "https://api.justwatch.com/titles/en_US/popular");
 
