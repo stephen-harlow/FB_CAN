@@ -213,8 +213,8 @@ function sendGenericMessage(sender, results) {
     }
     console.log(JSON.stringify(s))
 
-      if(buttons.length > 12){
-        ez = buttons.slice(0, 12);
+      if(buttons.length > 10){
+        buttons = buttons.slice(0, 10);
       }
       let messageData = {
           "attachment": {
