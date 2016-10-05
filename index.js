@@ -130,7 +130,7 @@ function GenMainCard(mediaEntity){
     console.log("HEHEHE")
     var nums = Math.min(mediaEntity.credits.length, 3)
     var start = 0;
-    subtitle = ""
+    var subtitle = ""
     while(start != nums){
       subtitle = subtitle + "" + mediaEntity.credits[start].name;
       if(start != nums-1){
