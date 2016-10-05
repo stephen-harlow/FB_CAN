@@ -132,11 +132,12 @@ function GenMainCard(mediaEntity){
   console.log(mediaEntity)
   card["title"] = mediaEntity.title + "(" + mediaEntity.certification + ")";
   card["subtitle"] = mediaEntity.directors + "(" + mediaEntity.year + ")";
-  card["image_url"] = mediaEntity.poster;
+  card["image_url"] = "http://www.imdb.com/title/" + mediaEntity.imdb_id;
+
   if (mediaEntity.imdb_id != null) {
     var butt = [{
         "type": "web_url",
-        "url": "http://www.imdb.com/title/" + mediaEntity.imbd_id,
+        "url": card["image_url"],
         "title": "IMDB"
     }]
 
