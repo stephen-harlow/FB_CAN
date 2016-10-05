@@ -35,7 +35,7 @@ String.prototype.toProperCase = function () {
 };
 var Caller = function(query, caller){
 
-  req.headers({
+  reqer.headers({
     "cache-control": "no-cache",
     "accept-language": "en-US,en;q=0.8",
     "accept-encoding": "gzip, deflate, br",
@@ -45,7 +45,7 @@ var Caller = function(query, caller){
     "origin": "https://www.justwatch.com",
     "accept": "application/json, text/plain, */*"
   });
-  req.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + "\"}");
+  reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + "\"}");
   reqer.end(function (res) {
     if (res.error) throw new Error(res.error);
     // console.log(res.body);
