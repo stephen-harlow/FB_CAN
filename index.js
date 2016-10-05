@@ -91,7 +91,6 @@ app.post('/webhook/', function (req, res) {
         sendTextMessage(sender, "This is what I found")
 
         sendGenericMessage(sender, param)
-        continue;
       });
       // console(.substring(0, 200));
 
