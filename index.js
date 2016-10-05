@@ -69,7 +69,6 @@ var Caller = function(query, caller){
       }], threshold: 0.5,
     };
     var fuse = new Fuse(res.body, options)
-    console.log("\n\n\n\n\n\n\n")
     caller(fuse.search(query));
   });
 }
@@ -86,6 +85,7 @@ app.post('/webhook/', function (req, res) {
       console.log(text);
       console.log("Searching")
       Caller(text, function(param){
+        console.log(param)
 
         console.log("Returning Characters");
         sendTextMessage(sender, "This is what I found")
