@@ -111,7 +111,7 @@ app.post('/webhook/', function (req, res) {
     if (event.postback) {
         let text = JSON.stringify(event.postback)
 
-        sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name and the search query", token)
+        sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name", token)
         continue
     }
   }
