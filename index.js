@@ -235,7 +235,6 @@ function sendGenericMessage(sender, results) {
           if(buttons[ind].buttons[j].title == source.buttons[0].title){ //there are multiple of the same thing
             console.log("Multiple of Same");
             flag = true;
-            buttons[ind].subtitle += ", " + expert
             searched.push(expert);
           }
         }
@@ -244,7 +243,6 @@ function sendGenericMessage(sender, results) {
 
           buttons[ind].buttons.push(source.buttons[0])
 
-          buttons[ind].subtitle += ", " + expert;
           searched.push(expert);
 
 
@@ -257,36 +255,35 @@ function sendGenericMessage(sender, results) {
         continue
       }
       else{
-        source.subtitle = expert
         searched.push(expert);
-
         buttons.push(source)
 
       }
     }
     if(source.subtitle != null){
-      if(source.subtitle.indexOf("Flatrate") == -1){
-        var arr = buttons.filter(function(item) {
-          return item.title == source.title;
-        });
-        var indexer = buttons.indexOf(arr[0]);
-        console.log("DEBUG@@@@@@@@@@@@@");
-        console.log(buttons[indexer].title);
-        var uniqueArray = searched.unique();
-        console.log(uniqueArray);
-        // uniqueArray.sort(function(a, b){
-        //     a = a.replace(/[[$0-9.]]/, '');
-        //     b = b.replace(/[[$0-9.]]/, '');
-        //     if( parseInt(a) < parseInt(b) ) return -1;
-        //     if( parseInt(a) > parseInt(b) ) return 1;
-        //     return 0;
-        // });
 
-        buttons[indexer].subtitle = uniqueArray.join(",")
-      // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
-      //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
-      // }
-    }
+      var arr = buttons.filter(function(item) {
+        return item.title == source.title;
+      });
+      var indexer = buttons.indexOf(arr[0]);
+      console.log("DEBUG@@@@@@@@@@@@@");
+      console.log(buttons[indexer].title);
+      var uniqueArray = searched.unique();
+      console.log(uniqueArray);
+      // uniqueArray.sort(function(a, b){
+      //     a = a.replace(/[[$0-9.]]/, '');
+      //     b = b.replace(/[[$0-9.]]/, '');
+      //     if( parseInt(a) < parseInt(b) ) return -1;
+      //     if( parseInt(a) > parseInt(b) ) return 1;
+      //     return 0;
+      // });
+
+      buttons[indexer].subtitle = "";
+      buttons[indexer].subtitle = uniqueArray.join(",")
+    // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
+    //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
+    // }
+
   }
   }
 
