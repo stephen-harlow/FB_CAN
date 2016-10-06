@@ -212,10 +212,17 @@ function sendGenericMessage(sender, results) {
   for (var i = 0; i < arrayLength; i++) {
     var arr = genSource(s["offers"][i], providers)
     var source = arr[0]
+
     var expert = arr[1]
+
     var arrFound = buttons.filter(function(item) {
       return item.title == source.title;
     });
+    if(source.title.indexOf("Microsoft") != -1){
+      console.log("*******DEBUG**********")
+      console.log("arrFound" + arrFound);
+      console.log("expert" + expert);
+    }
     if(arrFound.length > 0 ){
       if(source.buttons[0].title == "Flatrate"){
         continue
