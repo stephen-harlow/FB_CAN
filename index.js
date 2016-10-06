@@ -245,8 +245,7 @@ function sendGenericMessage(sender, results) {
         searched.push(expert);
 
         buttons.push(source)
-        var fuse = new Fuse(res.body["items"], options)
-        var s = fuse.search(query)[0]
+      
       }
     }
     else{
