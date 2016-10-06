@@ -246,7 +246,7 @@ function sendGenericMessage(sender, results) {
               breaker = false;
             }
           }
-          
+           
           if(breaker == true){
             buttons[ind].buttons.push(source.buttons[0])
           }
