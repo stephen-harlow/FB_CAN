@@ -69,7 +69,14 @@ function replaceAll(str, find, replace) {//Replace ALL Function
 String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };//Used for Buy
-
+Array.prototype.unique = function() {
+    return this.reduce(function(accum, current) {
+        if (accum.indexOf(current) < 0) {
+            accum.push(current);
+        }
+        return accum;
+    }, []);
+}
 var Caller = function(query, caller){
 
   reqer.headers({
@@ -256,16 +263,17 @@ function sendGenericMessage(sender, results) {
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
-        searched.sort(function(a, b){
+        var uniqueArray = searched.unique();
+
+        uniqueArray.sort(function(a, b){
             a = a.replace(/[[$0-9.]]/, '');
             b = b.replace(/[[$0-9.]]/, '');
             if( parseInt(a) < parseInt(b) ) return -1;
             if( parseInt(a) > parseInt(b) ) return 1;
             return 0;
         });
-        var uniqueArray = [];
 
-        source.subtitle = searched.join(", ")
+        source.subtitle = uniqueArray.join(", ")
       // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
       //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
       // }
