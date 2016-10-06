@@ -223,15 +223,20 @@ function sendGenericMessage(sender, results) {
           if(buttons[ind].buttons[j].title == source.buttons[0].title){ //there are multiple of the same thing
             flag = true;
             buttons[ind].subtitle += ", " + expert
+            searched.push(expert);
           }
         }
         if(flag == false){
           buttons[ind].buttons.push(source.buttons[0])
-          buttons[ind].subtitle += ", " + expert
+          buttons[ind].subtitle += ", " + expert;
+          searched.push(expert);
+
         }
       }
       else{
         source.subtitle = expert
+        searched.push(expert);
+
         buttons.push(source)
         var fuse = new Fuse(res.body["items"], options)
         var s = fuse.search(query)[0]
@@ -243,14 +248,27 @@ function sendGenericMessage(sender, results) {
       }
       else{
         source.subtitle = expert
+        searched.push(expert);
 
         buttons.push(source)
 
       }
     }
-    if(source.subtitle != null && source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
-        source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
+    if(source.subtitle != null){
+      if(source.subtitle.indexOf("Flatrate") == -1){
+        expert.sort(function(a, b){
+            a = a.replace(/[[$0-9.]]/, '');
+            b = b.replace(/[[$0-9.]]/, '');
+            if( parseInt(a) < parseInt(b) ) return -1;
+            if( parseInt(a) > parseInt(b) ) return 1;
+            return 0;
+        });
+        source.subtitle = expert.join(", ")
+      // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
+      //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
+      // }
     }
+  }
   }
   console.log(JSON.stringify(s))
 
