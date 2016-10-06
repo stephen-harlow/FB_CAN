@@ -220,8 +220,9 @@ function sendGenericMessage(sender, results) {
     });
     if(source.title.indexOf("Microsoft") != -1){
       console.log("*******DEBUG**********")
-      console.log("arrFound" + arrFound);
+      console.log("arrFound" + JSON.stringify(arrFound));
       console.log("expert" + expert);
+      console.log("source" + source);
     }
     if(arrFound.length > 0 ){
       if(source.buttons[0].title == "Flatrate"){
