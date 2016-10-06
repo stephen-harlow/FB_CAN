@@ -179,6 +179,7 @@ function genSource(Entity, providers){
   })[0];
   ret["image_url"] = arrFound["icon_url"]
   ret["title"] = arrFound["clear_name"]
+  ret["subtitle"] = ""
   var base = "";
   var type = "";
   if(typeof Entity.retail_price !== "undefined"){
@@ -219,6 +220,9 @@ function sendGenericMessage(sender, results) {
     var arrFound = buttons.filter(function(item) {
       return item.title == source.title;
     });
+    if(arrFound.length > 0){
+      ind = buttons.indexOf(arrFound[0])
+    }
     if(source.title.indexOf("Microsoft") != -1){
       console.log("*******DEBUG**********")
       console.log("arrFound" + JSON.stringify(arrFound));
@@ -230,7 +234,6 @@ function sendGenericMessage(sender, results) {
       if(source.buttons[0].title == "Flatrate"){
         continue
       }
-      ind = buttons.indexOf(arrFound[0]);
       if(buttons[ind].buttons.length < 3){ //Limit to 3 buttons, otherwise, there must be a new name
         var flag = false;
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
@@ -277,9 +280,8 @@ function sendGenericMessage(sender, results) {
         //     return 0;
         // });
 
-        buttons[ind].subtitle = "";
         buttons[ind].subtitle = uniqueArray.join(",")
-      }
+    }
 
 
     // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
