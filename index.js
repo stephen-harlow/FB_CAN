@@ -280,7 +280,7 @@ function sendGenericMessage(sender, results) {
         //     return 0;
         // });
 
-        buttons[ind].subtitle = uniqueArray.join(",")
+        buttons[ind].subtitle = uniqueArray.join(", ")
     }
 
 
