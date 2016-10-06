@@ -240,7 +240,7 @@ function sendGenericMessage(sender, results) {
           }
         }
         if(flag == false){
-          console.log("A New Something");
+          console.log("A Newer Something to the old");
 
           var breaker = true;
           for(var i = 0; i < buttons[ind].buttons.length;i++){
@@ -261,16 +261,17 @@ function sendGenericMessage(sender, results) {
       }
     }
     else{
+      console.log("Brand New Something")
       if(buttons.length > 0 && source.title == "Flatrate"){
         continue
       }
-      // else{
-      //   source.subtitle = expert
-      //   searched.push(expert);
-      //
-      //   buttons.push(source)
-      //
-      // }
+      else{
+        source.subtitle = expert
+        searched.push(expert);
+
+        buttons.push(source)
+
+      }
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
