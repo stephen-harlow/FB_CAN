@@ -282,7 +282,7 @@ function sendGenericMessage(sender, results) {
         //     return 0;
         // });
 
-        buttons[indexer].subtitle = uniqueArray.join(", ")
+        buttons[indexer].subtitle = uniqueArray.join(",")
       // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
       //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
       // }
