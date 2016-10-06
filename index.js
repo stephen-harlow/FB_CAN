@@ -228,25 +228,27 @@ function sendGenericMessage(sender, results) {
       if(source.buttons[0].title == "Flatrate"){
         continue
       }
-      console.log(arrFound)
       var ind = buttons.indexOf(arrFound[0]);
       if(buttons[ind].buttons.length < 3){ //Limit to 3 buttons, otherwise, there must be a new name
         var flag = false;
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
           if(buttons[ind].buttons[j].title == source.buttons[0].title && buttons[ind].subtitle.indexOf(expert) == -1){ //there are multiple of the same thing
+            console.log("Multiple of Same");
             flag = true;
             buttons[ind].subtitle += ", " + expert
             searched.push(expert);
           }
         }
         if(flag == false){
+          console.log("A New Something");
+
           var breaker = true;
           for(var i = 0; i < buttons[ind].buttons.length;i++){
             if(buttons[ind].buttons.title == source.buttons[0].title){
               breaker = false;
             }
           }
-           
+
           if(breaker == true){
             buttons[ind].buttons.push(source.buttons[0])
           }
@@ -257,25 +259,18 @@ function sendGenericMessage(sender, results) {
 
         }
       }
-      else{
-        source.subtitle = expert
-        searched.push(expert);
-
-        buttons.push(source)
-
-      }
     }
     else{
       if(buttons.length > 0 && source.title == "Flatrate"){
         continue
       }
-      else{
-        source.subtitle = expert
-        searched.push(expert);
-
-        buttons.push(source)
-
-      }
+      // else{
+      //   source.subtitle = expert
+      //   searched.push(expert);
+      //
+      //   buttons.push(source)
+      //
+      // }
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
