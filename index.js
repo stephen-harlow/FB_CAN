@@ -240,11 +240,19 @@ function sendGenericMessage(sender, results) {
           }
         }
         if(flag == false){
-          buttons[ind].buttons.push(source.buttons[0])
+          var breaker = true;
+          for (var but : buttons[ind].buttons){
+            if(but.title == source.buttons[0].title){
+              breaker = false;
+            }
+          }
+          if(breaker == true){
+            buttons[ind].buttons.push(source.buttons[0])
+          }
           if(buttons[ind].subtitle.indexOf(expert) == -1){
-          buttons[ind].subtitle += ", " + expert;
-          searched.push(expert);
-        }
+            buttons[ind].subtitle += ", " + expert;
+            searched.push(expert);
+          }
 
         }
       }
