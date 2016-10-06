@@ -269,14 +269,14 @@ function sendGenericMessage(sender, results) {
         console.log("DEBUG@@@@@@@@@@@@@");
         console.log(source.title);
         var uniqueArray = searched.unique();
-console.log(uniqueArray);
-        uniqueArray.sort(function(a, b){
-            a = a.replace(/[[$0-9.]]/, '');
-            b = b.replace(/[[$0-9.]]/, '');
-            if( parseInt(a) < parseInt(b) ) return -1;
-            if( parseInt(a) > parseInt(b) ) return 1;
-            return 0;
-        });
+        console.log(uniqueArray);
+        // uniqueArray.sort(function(a, b){
+        //     a = a.replace(/[[$0-9.]]/, '');
+        //     b = b.replace(/[[$0-9.]]/, '');
+        //     if( parseInt(a) < parseInt(b) ) return -1;
+        //     if( parseInt(a) > parseInt(b) ) return 1;
+        //     return 0;
+        // });
 
         source.subtitle = uniqueArray.join(", ")
       // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
