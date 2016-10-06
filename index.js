@@ -203,6 +203,7 @@ function sendGenericMessage(sender, results) {
   var buttons = []
   buttons.push(GenMainCard(s))
   var text = "";
+  var searched = []
   for (var i = 0; i < arrayLength; i++) {
     var arr = genSource(s["offers"][i], providers)
     var source = arr[0]
@@ -226,13 +227,14 @@ function sendGenericMessage(sender, results) {
         }
         if(flag == false){
           buttons[ind].buttons.push(source.buttons[0])
-          buttons[ind].subtitle += expert
+          buttons[ind].subtitle += ", " + expert
         }
       }
       else{
         source.subtitle = expert
         buttons.push(source)
-
+        var fuse = new Fuse(res.body["items"], options)
+        var s = fuse.search(query)[0]
       }
     }
     else{
@@ -245,6 +247,9 @@ function sendGenericMessage(sender, results) {
         buttons.push(source)
 
       }
+    }
+    if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
+        source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
     }
   }
   console.log(JSON.stringify(s))
