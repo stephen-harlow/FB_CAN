@@ -241,11 +241,12 @@ function sendGenericMessage(sender, results) {
         }
         if(flag == false){
           var breaker = true;
-          for (var but : buttons[ind].buttons){
-            if(but.title == source.buttons[0].title){
+          for(var i = 0; i < buttons[ind].buttons.length;i++){
+            if(buttons[ind].buttons.title == source.buttons[0].title){
               breaker = false;
             }
           }
+          
           if(breaker == true){
             buttons[ind].buttons.push(source.buttons[0])
           }
