@@ -271,7 +271,7 @@ function sendGenericMessage(sender, results) {
         });
         var indexer = buttons.indexOf(arr[0]);
         console.log("DEBUG@@@@@@@@@@@@@");
-        console.log(source.title);
+        console.log(buttons[indexer].title);
         var uniqueArray = searched.unique();
         console.log(uniqueArray);
         // uniqueArray.sort(function(a, b){
