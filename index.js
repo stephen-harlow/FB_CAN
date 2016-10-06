@@ -263,7 +263,11 @@ function sendGenericMessage(sender, results) {
             if( parseInt(a) > parseInt(b) ) return 1;
             return 0;
         });
-        source.subtitle = searched.join(", ")
+        var uniqueNames = [];
+        $.each(searched, function(i, el){
+            if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+        });
+        source.subtitle = uniqueNames.join(", ")
       if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
         source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
       }
