@@ -266,7 +266,8 @@ function sendGenericMessage(sender, results) {
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
-        console.log("DEBUG@@@@@@@@@@@@@")
+        console.log("DEBUG@@@@@@@@@@@@@");
+        console.log(source.title);
         var uniqueArray = searched.unique();
 console.log(uniqueArray);
         uniqueArray.sort(function(a, b){
