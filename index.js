@@ -264,10 +264,8 @@ function sendGenericMessage(sender, results) {
             return 0;
         });
         var uniqueArray = [];
-        uniqueArray = searched.filter(function(elem, pos) {
-          return searched.indexOf(elem) == pos;
-      })
-        source.subtitle = uniqueArray.join(", ")
+
+        source.subtitle = searched.join(", ")
       // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
       //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
       // }
