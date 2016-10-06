@@ -256,17 +256,17 @@ function sendGenericMessage(sender, results) {
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
-        expert.sort(function(a, b){
+        searched.sort(function(a, b){
             a = a.replace(/[[$0-9.]]/, '');
             b = b.replace(/[[$0-9.]]/, '');
             if( parseInt(a) < parseInt(b) ) return -1;
             if( parseInt(a) > parseInt(b) ) return 1;
             return 0;
         });
-        source.subtitle = expert.join(", ")
-      // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
-      //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
-      // }
+        source.subtitle = searched.join(", ")
+      if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
+        source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
+      }
     }
   }
   }
