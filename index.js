@@ -192,7 +192,7 @@ function genSource(Entity, providers){
   ret.buttons = [{
     "type": "web_url",
     "url": Entity["urls"]["standard_web"],
-    "title":  Entity.monetization_type.toProperCase()
+    "title":  Entity.monetization_type.toProperCase().replace(/ /, '');
   }]
   return [ret, Entity.monetization_type.toProperCase() + extra + base + type];
 }
@@ -216,7 +216,7 @@ function sendGenericMessage(sender, results) {
     var expert = arr[1]
 
     var arrFound = buttons.filter(function(item) {
-      return item.title == source.title;
+      return item.title == source.buttons[0].title;
     });
     if(source.title.indexOf("Microsoft") != -1){
       console.log("*******DEBUG**********")
