@@ -216,7 +216,7 @@ function sendGenericMessage(sender, results) {
     var expert = arr[1]
 
     var arrFound = buttons.filter(function(item) {
-      return item.title == source.buttons[0].title;
+      return item.title == source.title;
     });
     if(source.title.indexOf("Microsoft") != -1){
       console.log("*******DEBUG**********")
@@ -232,7 +232,7 @@ function sendGenericMessage(sender, results) {
       if(buttons[ind].buttons.length < 3){ //Limit to 3 buttons, otherwise, there must be a new name
         var flag = false;
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
-          if(buttons[ind].buttons[j].title == source.buttons[0].title && buttons[ind].subtitle.indexOf(expert) == -1){ //there are multiple of the same thing
+          if(buttons[ind].buttons[j].title == source.buttons[0].title){ //there are multiple of the same thing
             console.log("Multiple of Same");
             flag = true;
             buttons[ind].subtitle += ", " + expert
@@ -242,20 +242,11 @@ function sendGenericMessage(sender, results) {
         if(flag == false){
           console.log("A Newer Something to the old");
 
-          var breaker = true;
-          for(var i = 0; i < buttons[ind].buttons.length;i++){
-            if(buttons[ind].buttons.title == source.buttons[0].title){
-              breaker = false;
-            }
-          }
+          buttons[ind].buttons.push(source.buttons[0])
 
-          if(breaker == true){
-            buttons[ind].buttons.push(source.buttons[0])
-          }
-          if(buttons[ind].subtitle.indexOf(expert) == -1){
-            buttons[ind].subtitle += ", " + expert;
-            searched.push(expert);
-          }
+          buttons[ind].subtitle += ", " + expert;
+          searched.push(expert);
+
 
         }
       }
@@ -275,8 +266,9 @@ function sendGenericMessage(sender, results) {
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
+        console.log("DEBUG@@@@@@@@@@@@@")
         var uniqueArray = searched.unique();
-
+console.log(uniqueArray);
         uniqueArray.sort(function(a, b){
             a = a.replace(/[[$0-9.]]/, '');
             b = b.replace(/[[$0-9.]]/, '');
