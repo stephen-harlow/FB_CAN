@@ -89,9 +89,11 @@ var Caller = function(query, caller){
     "origin": "https://www.justwatch.com",
     "accept": "application/json, text/plain, */*"
   });
-  reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + "\"}");
+  reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + " \"}");
   reqer.end(function (res) {
-    if (res.error) throw new Error(res.error);
+    if (res.error) {
+      Caller(query, caller);
+    }
     // console.log(res.body);
     /**
     *
