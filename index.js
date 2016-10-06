@@ -248,7 +248,7 @@ function sendGenericMessage(sender, results) {
 
       }
     }
-    if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
+    if(source.subtitle != null && source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
         source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
     }
   }
