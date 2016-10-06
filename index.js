@@ -227,13 +227,13 @@ function sendGenericMessage(sender, results) {
       if(buttons[ind].buttons.length < 3){ //Limit to 3 buttons, otherwise, there must be a new name
         var flag = false;
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
-          if(buttons[ind].buttons[j].title == source.buttons[0].title){ //there are multiple of the same thing
+          if(buttons[ind].buttons[j].title == source.buttons[0].title && buttons[ind].subtitle.indexOf(expert) == -1){ //there are multiple of the same thing
             flag = true;
             buttons[ind].subtitle += ", " + expert
             searched.push(expert);
           }
         }
-        if(flag == false){
+        if(flag == false && buttons[ind].subtitle.indexOf(expert) == -1){
           buttons[ind].buttons.push(source.buttons[0])
           buttons[ind].subtitle += ", " + expert;
           searched.push(expert);
