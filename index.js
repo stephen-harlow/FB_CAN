@@ -192,7 +192,7 @@ function genSource(Entity, providers){
   ret.buttons = [{
     "type": "web_url",
     "url": Entity["urls"]["standard_web"],
-    "title":  Entity.monetization_type.toProperCase();
+    "title":  Entity.monetization_type.toProperCase()
   }]
   return [ret, Entity.monetization_type.toProperCase() + extra + base + type];
 }
