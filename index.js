@@ -230,12 +230,8 @@ function sendGenericMessage(sender, results) {
             buttons[ind].subtitle += ", " + expert
             searched.push(expert);
           }
-          if(buttons[ind].subtitle.indexOf(expert) == -1){
-            flag = true; //It's repeating???!!
-            console.log("REPETITIONs");
-          }
         }
-        if(flag == false){
+        if(flag == false && buttons[ind].subtitle.indexOf(expert) == -1){
           buttons[ind].buttons.push(source.buttons[0])
           buttons[ind].subtitle += ", " + expert;
           searched.push(expert);
