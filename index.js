@@ -266,6 +266,10 @@ function sendGenericMessage(sender, results) {
     }
     if(source.subtitle != null){
       if(source.subtitle.indexOf("Flatrate") == -1){
+        var arr = buttons.filter(function(item) {
+          return item.title == source.title;
+        });
+        var indexer = buttons.indexOf(arr[0]);
         console.log("DEBUG@@@@@@@@@@@@@");
         console.log(source.title);
         var uniqueArray = searched.unique();
@@ -278,7 +282,7 @@ function sendGenericMessage(sender, results) {
         //     return 0;
         // });
 
-        source.subtitle = uniqueArray.join(", ")
+        buttons[indexer].subtitle = uniqueArray.join(", ")
       // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
       //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
       // }
