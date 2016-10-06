@@ -110,7 +110,6 @@ var Caller = function(query, caller){
     };//Search WEIGHT
     var fuse = new Fuse(res.body["items"], options)
     var s = fuse.search(query)[0]
-    console.log("\n\n\n" + s);
     caller(s);
   });
 }
@@ -173,7 +172,6 @@ function GenMainCard(mediaEntity){
 
 }
 function genSource(Entity, providers){
-  console.log(Entity)
   var ret = {};
   var given_id = Entity.provider_id;
   var arrFound = providers.filter(function(item) {
@@ -232,6 +230,10 @@ function sendGenericMessage(sender, results) {
             buttons[ind].subtitle += ", " + expert
             searched.push(expert);
           }
+          if(buttons[ind].subtitle.indexOf(expert) == -1){
+            flag = true; //It's repeating???!!
+            console.log("REPETITIONs");
+          }
         }
         if(flag == false){
           buttons[ind].buttons.push(source.buttons[0])
@@ -245,7 +247,7 @@ function sendGenericMessage(sender, results) {
         searched.push(expert);
 
         buttons.push(source)
-      
+
       }
     }
     else{
@@ -279,7 +281,6 @@ function sendGenericMessage(sender, results) {
     }
   }
   }
-  console.log(JSON.stringify(s))
 
   if(buttons.length > 10){
     buttons = buttons.slice(0, 10);
