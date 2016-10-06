@@ -239,10 +239,12 @@ function sendGenericMessage(sender, results) {
             searched.push(expert);
           }
         }
-        if(flag == false && buttons[ind].subtitle.indexOf(expert) == -1){
+        if(flag == false){
           buttons[ind].buttons.push(source.buttons[0])
+          if(buttons[ind].subtitle.indexOf(expert) == -1){
           buttons[ind].subtitle += ", " + expert;
           searched.push(expert);
+        }
 
         }
       }
