@@ -214,6 +214,7 @@ function sendGenericMessage(sender, results) {
     var source = arr[0]
 
     var expert = arr[1]
+    var ind = -1;
 
     var arrFound = buttons.filter(function(item) {
       return item.title == source.title;
@@ -225,10 +226,11 @@ function sendGenericMessage(sender, results) {
       console.log("source" + source);
     }
     if(arrFound.length > 0 ){
+
       if(source.buttons[0].title == "Flatrate"){
         continue
       }
-      var ind = buttons.indexOf(arrFound[0]);
+      ind = buttons.indexOf(arrFound[0]);
       if(buttons[ind].buttons.length < 3){ //Limit to 3 buttons, otherwise, there must be a new name
         var flag = false;
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
@@ -262,24 +264,24 @@ function sendGenericMessage(sender, results) {
     }
     if(source.subtitle != null){
 
-      var arr = buttons.filter(function(item) {
-        return item.title == source.title;
-      });
-      var indexer = buttons.indexOf(arr[0]);
-      console.log("DEBUG@@@@@@@@@@@@@");
-      console.log(buttons[indexer].title);
-      var uniqueArray = searched.unique();
-      console.log(uniqueArray);
-      // uniqueArray.sort(function(a, b){
-      //     a = a.replace(/[[$0-9.]]/, '');
-      //     b = b.replace(/[[$0-9.]]/, '');
-      //     if( parseInt(a) < parseInt(b) ) return -1;
-      //     if( parseInt(a) > parseInt(b) ) return 1;
-      //     return 0;
-      // });
+      if(ind != -1){
+        console.log("DEBUG@@@@@@@@@@@@@");
+        console.log(buttons[ind].title);
+        var uniqueArray = searched.unique();
+        console.log(uniqueArray);
+        // uniqueArray.sort(function(a, b){
+        //     a = a.replace(/[[$0-9.]]/, '');
+        //     b = b.replace(/[[$0-9.]]/, '');
+        //     if( parseInt(a) < parseInt(b) ) return -1;
+        //     if( parseInt(a) > parseInt(b) ) return 1;
+        //     return 0;
+        // });
 
-      buttons[indexer].subtitle = "";
-      buttons[indexer].subtitle = uniqueArray.join(",")
+        buttons[ind].subtitle = "";
+        buttons[ind].subtitle = uniqueArray.join(",")
+      }
+
+
     // if(source.subtitle.substr(source.subtitle.length-1,source.subtitle.length) == ','){
     //   source.subtitle = source.subtitle.substr(0, source.subtitle.length-2)
     // }
