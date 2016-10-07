@@ -31,10 +31,6 @@ app.get('/output.json', function(req, res) {
   res.setHeader('Content-Type', 'application/octet-stream')
   res.end(JSON.stringify(data, null, 2), 'utf8')
 })
-
-http.createServer(app).listen(3000, function(){
-  console.log('Listening...')
-});
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
   if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
