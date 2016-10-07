@@ -22,15 +22,6 @@ app.use(bodyParser.json())
 app.get('/', function (req, res) {
   res.send('Hello world, I am a chat bot')
 })
-
-app.get('/output.json', function(req, res) {
-  var data = JSON.parse(fs.readFileSync('output.json'), 'utf8')
-
-  res.attachment('output.json')
-  //following line is not necessary, just experimenting
-  res.setHeader('Content-Type', 'application/octet-stream')
-  res.end(JSON.stringify(data, null, 2), 'utf8')
-})
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
   if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
@@ -107,6 +98,7 @@ var Caller = function(query, caller){
     *
     */
     var options = {
+      include: ["score"],
       keys: [{
         name: 'title',
         weight: 0.5
@@ -116,18 +108,13 @@ var Caller = function(query, caller){
       }, {
         name: 'sources.source',
         weight: 0.45
-      }], threshold: 0.5,
+      }], threshold: 0.6,
     };//Search WEIGHT
+    //13 Title, 7 for " (YEAR)"
     var fuse = new Fuse(res.body["items"], options)
 
     var s = fuse.search(query)
-    fs.writeFile("/output.json", JSON.stringify(s), function(err) {
-        if(err) {
-            return console.log(err);
-        }
 
-        console.log("The file was saved!");
-    });
     console.log(s);
 
     caller(s[0]);
@@ -139,21 +126,7 @@ var Caller = function(query, caller){
 function sendTextMessage(sender, text) {
   //Basic Text Message
   let messageData = { text:text }
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:token},
-    method: 'POST',
-    json: {
-      recipient: {id:sender},
-      message: messageData,
-    }
-  }, function(error, response, body) {
-    if (error) {
-      console.log('Error sending messages: ', error)
-    } else if (response.body.error) {
-      console.log('Error: ', response.body.error)
-    }
-  })
+  sendPayload(sender, messageData)
 }
 
 function GenMainCard(mediaEntity){
@@ -314,6 +287,11 @@ function sendGenericMessage(sender, results) {
   if(buttons.length > 10){
     buttons = buttons.slice(0, 10);
   }
+  sendMessageWithButtons(sender, buttons);
+
+
+}
+function sendMessageWithButtons(sender, buttons){
   let messageData = {
     "attachment": {
       "type": "template",
@@ -323,6 +301,10 @@ function sendGenericMessage(sender, results) {
       }
     }
   }
+  sendPayload(sender, messageData)
+}
+function sendPayload(sender, payload){
+
 
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -330,7 +312,7 @@ function sendGenericMessage(sender, results) {
     method: 'POST',
     json: {
       recipient: {id:sender},
-      message: messageData,
+      message: payload,
     }
   }, function(error, response, body) {
     if (error) {
@@ -340,6 +322,4 @@ function sendGenericMessage(sender, results) {
       console.log('Error: ', response.body.error)
     }
   })
-
-
 }
