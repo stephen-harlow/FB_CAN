@@ -128,18 +128,20 @@ var Caller = function(query, sender, pass, spec_id, caller){
       }], threshold: 0.5,
     };//Search WEIGHT
     //13 Title, 7 for " (YEAR)"
-    var fuse = new Fuse(res.body["items"], options)
+    var s = res.body["items"]
 
-    var s = fuse.search(query)
     if(pass){
       s = s.filter(function (el) {
-        return el.item.id == spec_id;
+        return el.id == spec_id;
       });
     }
     if(s.length == 1 || (pass && s.length > 0)){
       caller(s[0]);
     }
     else if(s.length > 1){
+      var fuse = new Fuse(s, options)
+
+      s = fuse.search(query)
       var viable =  s.slice(0, Math.min(8, s.length));
       var butts = []
       for (var i = 0; i < viable.length; i++) {
