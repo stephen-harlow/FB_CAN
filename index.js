@@ -203,8 +203,9 @@ function GenMainCard(mediaEntity){
   else{
     card["subtitle"] = "Search Result"; //If there are no actors
   }
-  card["image_url"] = "https://static.justwatch.com"+mediaEntity["poster"].replace("{profile}", "s592/")//Get the Larger version of the Poster
-
+  if(mediaEntity.poster != null){
+    card["image_url"] = "https://static.justwatch.com"+mediaEntity["poster"].replace("{profile}", "s592/")//Get the Larger version of the Poster
+  }
   if (mediaEntity.full_path != null) { //Source and Cite
     var butt = [{
       "type": "web_url",
