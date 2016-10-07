@@ -151,6 +151,10 @@ var Caller = function(query, sender, pass, caller){
         "template_type": "generic",
         "elements":butts
       }
+      var textual = "These are the top results that I have come up with. Do these match what you are looking for? If not, you can always repeat your search with a different title."
+      let messageData = { text:textual }
+
+      sendPayload(sender, messageData, "NO_PUSH")
       sendMessageWithLoad(sender, load);
     }
     console.log(s);
@@ -161,7 +165,7 @@ var Caller = function(query, sender, pass, caller){
 
 
 
-function sendTextMessage(sender, text) {
+function sendTextMessage(sender, text, notetype = "") {
   //Basic Text Message
   let messageData = { text:text }
   sendPayload(sender, messageData)
@@ -330,7 +334,7 @@ function sendMessageWithLoad(sender, load){
   }
   sendPayload(sender, messageData)
 }
-function sendPayload(sender, payload){
+function sendPayload(sender, payload, notetype = "REGULAR"){
 
 
   request({
@@ -340,6 +344,7 @@ function sendPayload(sender, payload){
     json: {
       recipient: {id:sender},
       message: payload,
+      notification_type: notetype
     }
   }, function(error, response, body) {
     if (error) {
