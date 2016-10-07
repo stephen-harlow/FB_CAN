@@ -116,6 +116,9 @@ var Caller = function(query, sender, pass, caller){
       keys: [{
         name: 'title',
         weight: 0.5
+      },{
+        name = 'original_release_year',
+        weight: .45
       }, {
         name: 'credits.name',
         weight: 0.55
@@ -248,7 +251,6 @@ function sendGenericMessage(sender, results) {
 
   }
   console.log("_____________ DEBUGGING ________________")
-  console.log(JSON.stringify(s))
   var arrayLength = s["offers"].length;
   var buttons = []
   buttons.push(GenMainCard(s))
