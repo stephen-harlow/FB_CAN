@@ -192,6 +192,7 @@ function genSource(Entity, providers){
 }
 
 function sendGenericMessage(sender, results) {
+  var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
 
   var s = results;
   if(s == null){
@@ -199,7 +200,8 @@ function sendGenericMessage(sender, results) {
     return sendTextMessage(sender, "No Results");
   }
   if(s.item != null){
-    s = s.item;
+    s = s.item;  var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
+
   }
   console.log("_____________ DEBUGGING ________________")
   console.log(JSON.stringify(s))
