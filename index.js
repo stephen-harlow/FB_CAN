@@ -125,7 +125,7 @@ var Caller = function(query, sender, pass, caller){
       }, {
         name: 'sources.source',
         weight: 0.45
-      }], threshold: 0.6,
+      }], threshold: 0.5,
     };//Search WEIGHT
     //13 Title, 7 for " (YEAR)"
     var fuse = new Fuse(res.body["items"], options)
