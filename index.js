@@ -142,6 +142,7 @@ var Caller = function(query, sender, pass, caller){
             "title":short_title + " " + yearer,
             "payload":"DECIDER::-[]" + norm
           }
+          butts.push(button)
         // viable[i]
       }
       var load = {
