@@ -121,7 +121,7 @@ var Caller = function(query, sender, pass, caller){
       }, {
         name: 'sources.source',
         weight: 0.45
-      }], threshold: 0.5,
+      }], threshold: 0.6,
     };//Search WEIGHT
     //13 Title, 7 for " (YEAR)"
     var fuse = new Fuse(res.body["items"], options)
@@ -131,17 +131,18 @@ var Caller = function(query, sender, pass, caller){
       caller(s[0]);
     }
     else if(s.length > 1){
-      var viable =  s.slice(0, Math.min(3, s.length));
+      var viable =  s.slice(0, Math.min(8, s.length));
       var butts = []
       for (var i = 0; i < viable.length; i++) {
         //::-[]
         var norm = viable[i].item.title
         var mainer = GenMainCard(viable[i].item)
+        var yearer = " (" + viable[i].item.original_release_year + ")"
 
         var button = [{
             "type":"postback",
             "title":"Choose This Movie",
-            "payload":"DECIDER::-[]" + norm
+            "payload":"DECIDER::-[]" + norm + yearer
           }]
           mainer.buttons = button;
           butts.push(mainer)
