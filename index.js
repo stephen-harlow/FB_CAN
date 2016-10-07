@@ -175,7 +175,7 @@ function sendTextMessage(sender, text, notetype) {
 function GenMainCard(mediaEntity){
   var card = {};
   card["title"] = mediaEntity.title + " (" + mediaEntity.original_release_year + ")";
-  if(mediaEntity.credits.length > 0){
+  if(mediaEntity.credits != null && mediaEntity.credits.length > 0){
     console.log(mediaEntity.credits.length)
 
     var nums = Math.min(mediaEntity.credits.length, 3) //Only take top 3 Actors for Subtitle
