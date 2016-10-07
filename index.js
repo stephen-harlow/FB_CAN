@@ -253,7 +253,7 @@ function sendGenericMessage(sender, results) {
 
       if(ind != -1){
         var uniqueArray = searched.unique();
-
+ 
         buttons[ind].subtitle = uniqueArray.join(", ")
     }
 
