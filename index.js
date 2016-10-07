@@ -36,26 +36,38 @@ app.post('/webhook/', function (req, res) {
   for (let i = 0; i < messaging_events.length; i++) {
     let event = req.body.entry[0].messaging[i]
     let sender = event.sender.id
-    if (event.message && event.message.text) {
-      let text = replaceAll(event.message.text, " ", "+")
-      console.log(text);
-      console.log("Searching")
-      Caller(text, function(param){
-        console.log("Returning Characters");
-        sendGenericMessage(sender, param)
-      });
+    if (event.message && event.message.text || event.postback) {
+      if (event.postback) {
+        if(event.postback.payload.split("::-[]")[0] == "DECIDER"){
+          SearchforTitle(event.postback.payload.split("::-[]")[1])
+        }
+        let text = JSON.stringify(event.postback)
+
+        sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name", token)
+        continue
+
+      }
+      else{
+        // let text = replaceAll(event.message.text, " ", "+")
+        SearchforTitle(event.message.text)
+
+      }
+
       // console(.substring(0, 200));
 
     }
-    if (event.postback) {
-      let text = JSON.stringify(event.postback)
 
-      sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name", token)
-      continue
-    }
   }
   res.sendStatus(200)
 })
+function SearchforTitle(title){
+  console.log(title);
+  console.log("Searching")
+  Caller(title, function(param){
+    console.log("Returning Characters");
+    sendGenericMessage(sender, param)
+  });
+}
 // Spin up the server
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
@@ -108,13 +120,12 @@ var Caller = function(query, caller){
       }, {
         name: 'sources.source',
         weight: 0.45
-      }], threshold: 0.6,
+      }], threshold: 0.5,
     };//Search WEIGHT
     //13 Title, 7 for " (YEAR)"
     var fuse = new Fuse(res.body["items"], options)
 
     var s = fuse.search(query)
-
     console.log(s);
 
     caller(s[0]);
