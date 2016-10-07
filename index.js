@@ -117,7 +117,7 @@ var Caller = function(query, sender, pass, caller){
         name: 'title',
         weight: 0.5
       },{
-        name = 'original_release_year',
+        name: 'original_release_year',
         weight: .45
       }, {
         name: 'credits.name',
