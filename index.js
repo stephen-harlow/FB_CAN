@@ -22,9 +22,10 @@ app.use(bodyParser.json())
 app.get('/', function (req, res) {
   res.send('Hello world, I am a chat bot')
 })
-var data = JSON.parse(fs.readFileSync('output.json'), 'utf8')
 
 app.get('/output.json', function(req, res) {
+  var data = JSON.parse(fs.readFileSync('output.json'), 'utf8')
+
   res.attachment('output.json')
   //following line is not necessary, just experimenting
   res.setHeader('Content-Type', 'application/octet-stream')
