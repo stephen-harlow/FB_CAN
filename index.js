@@ -40,7 +40,7 @@ app.post('/webhook/', function (req, res) {
       if (event.postback) {
         if(event.postback.payload.split("::-[]")[0] == "DECIDER"){
           console.log("PASSING THROUGH: " + event.postback.payload)
-          SearchforTitle(event.postback.payload.split("::-[]")[1], sender, true)
+          SearchforTitle(event.postback.payload.split("::-[]")[1], sender, true, parseInt(event.postback.payload.split("::-[]")[2]))
         }
         else{
         let text = JSON.stringify(event.postback)
@@ -51,7 +51,7 @@ app.post('/webhook/', function (req, res) {
       }
       else{
         // let text = replaceAll(event.message.text, " ", "+")
-        SearchforTitle(event.message.text, sender, false)
+        SearchforTitle(event.message.text, sender, false, 0)
 
       }
 
@@ -62,10 +62,10 @@ app.post('/webhook/', function (req, res) {
   }
   res.sendStatus(200)
 })
-function SearchforTitle(title, sender, pass){
+function SearchforTitle(title, sender, pass, spec_id){
   console.log(title);
   console.log("Searching")
-  Caller(title, sender, pass, function(param){
+  Caller(title, sender, pass, spec_id, function(param){
     console.log("Returning Characters");
     sendGenericMessage(sender, param)
   });
@@ -89,7 +89,7 @@ Array.prototype.unique = function() {
         return accum;
     }, []);
 }
-var Caller = function(query, sender, pass, caller){
+var Caller = function(query, sender, pass, spec_id, caller){
   const reqer = unirest("POST", "https://api.justwatch.com/titles/en_US/popular");
 
   reqer.headers({
@@ -131,6 +131,11 @@ var Caller = function(query, sender, pass, caller){
     var fuse = new Fuse(res.body["items"], options)
 
     var s = fuse.search(query)
+    if(pass){
+      s = s.filter(function (el) {
+        return el.item.id == spec_id;
+      });
+    }
     if(s.length == 1 || (pass && s.length > 0)){
       caller(s[0]);
     }
@@ -142,11 +147,12 @@ var Caller = function(query, sender, pass, caller){
         var norm = viable[i].item.title
         var mainer = GenMainCard(viable[i].item)
         var yearer = " (" + viable[i].item.original_release_year + ")"
-
+        var id = viable[i].item.id;
+        var seper = "::-[]"
         var button = [{
             "type":"postback",
             "title":"Choose This Movie",
-            "payload":"DECIDER::-[]" + norm + yearer
+            "payload":"DECIDER" + seper + norm + yearer + seper + id
           }]
           mainer.buttons = button;
           butts.push(mainer)
