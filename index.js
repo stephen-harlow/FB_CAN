@@ -149,7 +149,6 @@ var Caller = function(query, sender, pass, caller){
       }
       var load = {
         "template_type": "generic",
-        "text":"These are the top results that I have come up with. Do these match what you are looking for? If not, you can always repeat your search with a different title. ",
         "elements":butts
       }
       sendMessageWithLoad(sender, load);
