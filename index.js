@@ -216,12 +216,7 @@ function sendGenericMessage(sender, results) {
     if(arrFound.length > 0){
       ind = buttons.indexOf(arrFound[0])
     }
-    if(source.title.indexOf("Microsoft") != -1){
-      console.log("*******DEBUG**********")
-      console.log("arrFound" + JSON.stringify(arrFound));
-      console.log("expert" + expert);
-      console.log("source" + source);
-    }
+
     if(arrFound.length > 0 ){
 
       if(source.buttons[0].title == "Flatrate"){
@@ -231,14 +226,11 @@ function sendGenericMessage(sender, results) {
         var flag = false;
         for (var j = 0; j < buttons[ind].buttons.length; j++) {
           if(buttons[ind].buttons[j].title == source.buttons[0].title){ //there are multiple of the same thing
-            console.log("Multiple of Same");
             flag = true;
             searched.push(expert);
           }
         }
         if(flag == false){
-          console.log("A Newer Something to the old");
-
           buttons[ind].buttons.push(source.buttons[0])
 
           searched.push(expert);
@@ -248,7 +240,6 @@ function sendGenericMessage(sender, results) {
       }
     }
     else{
-      console.log("Brand New Something")
       if(buttons.length > 0 && source.title == "Flatrate"){
         continue
       }
@@ -261,17 +252,7 @@ function sendGenericMessage(sender, results) {
     if(source.subtitle != null){
 
       if(ind != -1){
-        console.log("DEBUG@@@@@@@@@@@@@");
-        console.log(buttons[ind].title);
         var uniqueArray = searched.unique();
-        console.log(uniqueArray);
-        // uniqueArray.sort(function(a, b){
-        //     a = a.replace(/[[$0-9.]]/, '');
-        //     b = b.replace(/[[$0-9.]]/, '');
-        //     if( parseInt(a) < parseInt(b) ) return -1;
-        //     if( parseInt(a) > parseInt(b) ) return 1;
-        //     return 0;
-        // });
 
         buttons[ind].subtitle = uniqueArray.join(", ")
     }
