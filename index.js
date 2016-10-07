@@ -41,11 +41,12 @@ app.post('/webhook/', function (req, res) {
         if(event.postback.payload.split("::-[]")[0] == "DECIDER"){
           SearchforTitle(event.postback.payload.split("::-[]")[1], sender, true)
         }
+        else{
         let text = JSON.stringify(event.postback)
 
         sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name", token)
         continue
-
+        }
       }
       else{
         // let text = replaceAll(event.message.text, " ", "+")
@@ -135,20 +136,21 @@ var Caller = function(query, sender, pass, caller){
       for (var i = 0; i < viable.length; i++) {
         //::-[]
         var norm = viable[i].item.title
-        var short_title = norm.substring(0, Math.min(13, norm.length));
-        var yearer = "(" + viable[i].item.original_release_year + ")"
-        var button = {
+        var mainer = GenMainCard(viable[i].item)
+
+        var button = [{
             "type":"postback",
-            "title":short_title + " " + yearer,
+            "title":"Choose This Movie",
             "payload":"DECIDER::-[]" + norm
-          }
-          butts.push(button)
+          }]
+          mainer.buttons = button;
+          butts.push(mainer)
         // viable[i]
       }
       var load = {
-        "template_type": "button",
+        "template_type": "generic",
         "text":"These are the top results that I have come up with. Do these match what you are looking for? If not, you can always repeat your search with a different title. ",
-        "buttons":butts
+        "elements":butts
       }
       sendMessageWithLoad(sender, load);
     }
