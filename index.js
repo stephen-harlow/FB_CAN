@@ -39,7 +39,7 @@ app.post('/webhook/', function (req, res) {
     if (event.message && event.message.text || event.postback) {
       if (event.postback) {
         if(event.postback.payload.split("::-[]")[0] == "DECIDER"){
-          SearchforTitle(event.postback.payload.split("::-[]")[1])
+          SearchforTitle(event.postback.payload.split("::-[]")[1], sender, true)
         }
         let text = JSON.stringify(event.postback)
 
@@ -49,7 +49,7 @@ app.post('/webhook/', function (req, res) {
       }
       else{
         // let text = replaceAll(event.message.text, " ", "+")
-        SearchforTitle(event.message.text)
+        SearchforTitle(event.message.text, sender, false)
 
       }
 
@@ -60,10 +60,10 @@ app.post('/webhook/', function (req, res) {
   }
   res.sendStatus(200)
 })
-function SearchforTitle(title){
+function SearchforTitle(title, sender, pass){
   console.log(title);
   console.log("Searching")
-  Caller(title, function(param){
+  Caller(title, sender, pass, function(param){
     console.log("Returning Characters");
     sendGenericMessage(sender, param)
   });
@@ -87,7 +87,7 @@ Array.prototype.unique = function() {
         return accum;
     }, []);
 }
-var Caller = function(query, caller){
+var Caller = function(query, sender, pass, caller){
   const reqer = unirest("POST", "https://api.justwatch.com/titles/en_US/popular");
 
   reqer.headers({
@@ -126,9 +126,34 @@ var Caller = function(query, caller){
     var fuse = new Fuse(res.body["items"], options)
 
     var s = fuse.search(query)
+    if(s.length == 1 || (pass && s.length > 0)){
+      caller(s[0]);
+    }
+    else if(s.length > 1){
+      var viable =  s.slice(0, Math.min(3, s.length));
+      var butts = []
+      for (var i = 0; i < viable.length; i++) {
+        //::-[]
+        var norm = viable[i].item.title
+        var short_title = norm.substring(0, Math.min(13, norm.length));
+        var yearer = "(" + viable[i].item.original_release_year + ")"
+        var button = {
+            "type":"postback",
+            "title":short_title + " " + yearer,
+            "payload":"DECIDER::-[]" + norm
+          }
+        // viable[i]
+      }
+      var load = {
+        "template_type": "button",
+        "text":"These are the top results that I have come up with. Do these match what you are looking for? If not, you can always repeat your search with a different title. ",
+        "buttons":butts
+      }
+      sendMessageWithLoad(sender, load);
+    }
     console.log(s);
 
-    caller(s[0]);
+
   });
 }
 
@@ -286,18 +311,19 @@ function sendGenericMessage(sender, results) {
   if(buttons.length > 10){
     buttons = buttons.slice(0, 10);
   }
-  sendMessageWithButtons(sender, buttons);
+  var load = {
+    "template_type": "generic",
+    "elements":buttons
+  }
+  sendMessageWithLoad(sender, load);
 
 
 }
-function sendMessageWithButtons(sender, buttons){
+function sendMessageWithLoad(sender, load){
   let messageData = {
     "attachment": {
       "type": "template",
-      "payload": {
-        "template_type": "generic",
-        "elements":buttons
-      }
+      "payload": load
     }
   }
   sendPayload(sender, messageData)
