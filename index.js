@@ -8,7 +8,6 @@ const Nightmare = require('nightmare');
 const unirest = require("unirest");
 const fs = require("fs");
 const Fuse = require("fuse.js");
-const reqer = unirest("POST", "https://api.justwatch.com/titles/en_US/popular");
 const token = process.env.ACCESS_TOKEN
 
 app.set('port', (process.env.PORT || 5000))
@@ -23,7 +22,18 @@ app.use(bodyParser.json())
 app.get('/', function (req, res) {
   res.send('Hello world, I am a chat bot')
 })
+var data = JSON.parse(fs.readFileSync('output.json'), 'utf8')
 
+app.get('/output.json', function(req, res) {
+  res.attachment('output.json')
+  //following line is not necessary, just experimenting
+  res.setHeader('Content-Type', 'application/octet-stream')
+  res.end(JSON.stringify(data, null, 2), 'utf8')
+})
+
+http.createServer(app).listen(3000, function(){
+  console.log('Listening...')
+});
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
   if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
@@ -78,6 +88,7 @@ Array.prototype.unique = function() {
     }, []);
 }
 var Caller = function(query, caller){
+  const reqer = unirest("POST", "https://api.justwatch.com/titles/en_US/popular");
 
   reqer.headers({
     "cache-control": "no-cache",
@@ -89,7 +100,7 @@ var Caller = function(query, caller){
     "origin": "https://www.justwatch.com",
     "accept": "application/json, text/plain, */*"
   });
-  reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + " \"}");
+  reqer.send("{\"content_types\":null,\"presentation_types\":null,\"providers\":null,\"genres\":null,\"languages\":null,\"release_year_from\":null,\"release_year_until\":null,\"monetization_types\":[\"flatrate\",\"ads\",\"free\",\"rent\",\"buy\",\"cinema\"],\"min_price\":null,\"max_price\":null,\"scoring_filter_types\":null,\"cinema_release\":null,\"query\":\"" + query.split(' ').join(" ") + "\"}");
   reqer.end(function (res) {
     if (res.error) {
       Caller(query, caller);
@@ -111,8 +122,18 @@ var Caller = function(query, caller){
       }], threshold: 0.5,
     };//Search WEIGHT
     var fuse = new Fuse(res.body["items"], options)
-    var s = fuse.search(query)[0]
-    caller(s);
+
+    var s = fuse.search(query)
+    fs.writeFile("/output.json", JSON.stringify(s), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+    });
+    console.log(s);
+
+    caller(s[0]);
   });
 }
 
