@@ -45,7 +45,7 @@ app.post('/webhook/', function (req, res) {
         else{
         let text = JSON.stringify(event.postback)
 
-        sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name", token)
+        sendTextMessage(sender, "Welcome to the App. Currently, to search movies, type in the movie name", "REGULAR")
         continue
         }
       }
@@ -206,6 +206,9 @@ function GenMainCard(mediaEntity){
   if(mediaEntity.poster != null){
     card["image_url"] = "https://static.justwatch.com"+mediaEntity["poster"].replace("{profile}", "s592/")//Get the Larger version of the Poster
   }
+  else{
+    card.subtitle += "(No Image Available)"
+  }
   if (mediaEntity.full_path != null) { //Source and Cite
     var butt = [{
       "type": "web_url",
@@ -251,7 +254,7 @@ function sendGenericMessage(sender, results) {
   var s = results;
   if(s == null){
 
-    return sendTextMessage(sender, "No Results", "");
+    return sendTextMessage(sender, "No Results", "REGULAR");
   }
   if(s.item != null){
     s = s.item;  var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
