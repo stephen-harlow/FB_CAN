@@ -165,10 +165,10 @@ var Caller = function(query, sender, pass, caller){
 
 
 
-function sendTextMessage(sender, text, notetype = "") {
+function sendTextMessage(sender, text, notetype) {
   //Basic Text Message
   let messageData = { text:text }
-  sendPayload(sender, messageData)
+  sendPayload(sender, messageData, notetype)
 }
 
 function GenMainCard(mediaEntity){
@@ -239,7 +239,7 @@ function sendGenericMessage(sender, results) {
   var s = results;
   if(s == null){
 
-    return sendTextMessage(sender, "No Results");
+    return sendTextMessage(sender, "No Results", "");
   }
   if(s.item != null){
     s = s.item;  var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
@@ -332,9 +332,10 @@ function sendMessageWithLoad(sender, load){
       "payload": load
     }
   }
-  sendPayload(sender, messageData)
+  sendPayload(sender, messageData, "")
 }
-function sendPayload(sender, payload, notetype = "REGULAR"){
+function sendPayload(sender, payload, notetype){
+    if(notetype == ""){notetype = "REGULAR"}
 
 
   request({
