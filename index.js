@@ -195,10 +195,14 @@ function sendGenericMessage(sender, results) {
 
   var s = results;
   if(s == null){
+
     return sendTextMessage(sender, "No Results");
   }
+  if(s.item != null){
+    s = s.item;
+  }
   console.log("_____________ DEBUGGING ________________")
-  console.log(s)
+  console.log(JSON.stringify(s))
   var arrayLength = s["offers"].length;
   var buttons = []
   buttons.push(GenMainCard(s))
