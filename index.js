@@ -39,6 +39,7 @@ app.post('/webhook/', function (req, res) {
     if (event.message && event.message.text || event.postback) {
       if (event.postback) {
         if(event.postback.payload.split("::-[]")[0] == "DECIDER"){
+          console.log("PASSING THROUGH: " + event.postback.payload)
           SearchforTitle(event.postback.payload.split("::-[]")[1], sender, true)
         }
         else{
@@ -158,7 +159,6 @@ var Caller = function(query, sender, pass, caller){
       sendPayload(sender, messageData, "NO_PUSH")
       sendMessageWithLoad(sender, load);
     }
-    console.log(s);
 
 
   });
