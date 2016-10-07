@@ -192,12 +192,13 @@ function genSource(Entity, providers){
 }
 
 function sendGenericMessage(sender, results) {
-  var providers = JSON.parse(fs.readFileSync('prov.json', 'utf8'));
 
   var s = results;
   if(s == null){
     return sendTextMessage(sender, "No Results");
   }
+  console.log("_____________ DEBUGGING ________________")
+  console.log(s)
   var arrayLength = s["offers"].length;
   var buttons = []
   buttons.push(GenMainCard(s))
@@ -253,7 +254,7 @@ function sendGenericMessage(sender, results) {
 
       if(ind != -1){
         var uniqueArray = searched.unique();
- 
+
         buttons[ind].subtitle = uniqueArray.join(", ")
     }
 
