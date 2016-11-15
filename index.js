@@ -132,7 +132,7 @@ var Caller = function(query, sender, pass, spec_id, caller){
 
     if(pass){
       s = s.filter(function (el) {
-        return el.id == spec_id;
+        return el..id == spec_id;
       });
     }
     if(s.length == 1 || (pass && s.length > 0)){
